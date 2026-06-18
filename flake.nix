@@ -97,7 +97,7 @@
 
     # playgrounds
     cursed-ping.url = "git+https://git.fuckyougoogle.xyz/lain/cursed-ping";
-    tangled.url = "git+https://tangled.org/tangled.org/core";
+    tangled.url = "git+https://code.cuddles.rs/tangled/core"; # keep in sync with https://tangled.org/tangled.org/core
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     sops-nix = {
       url = "github:Mic92/sops-nix";
