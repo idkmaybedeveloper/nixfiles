@@ -1,0 +1,43 @@
+{ config, pkgs, ... }:
+
+{
+  services.minecraft-servers.servers.velocity = {
+    enable = true;
+    autoStart = true;
+    package = pkgs.velocity-server;
+    jvmOpts = "-Xmx2G -Xms1G";
+    stopCommand = "end";
+    managementSystem = {
+      tmux.enable = true;
+    };
+    files = {
+      "velocity.toml" = {
+        format = pkgs.formats.toml { };
+        value = {
+          config-version = "2.7";
+          bind = "0.0.0.0:25565";
+          motd = "lain's server :3";
+          show-ping = true;
+          forwardings = {
+            mode = "modern";
+            legacy-kick-forwarding = false;
+            secret = "@velocity_secret@";
+          };
+          servers = {
+            lobby = "127.0.0.1:25575";
+          };
+          try = [ "paper" ];
+          forced-hosts = { };
+        };
+      };
+      "plugins/limboapi-1.1.27-SNAPSHOT.jar" = pkgs.fetchurl {
+        url = "https://github.com/Elytrium/LimboAPI/releases/download/dev-build/limboapi-1.1.27-SNAPSHOT.jar";
+        sha256 = "1ma5lvwfcf5f6dml3w3a1s0vi400cksy1zqzwchjwx3mnnmxblzm";
+      };
+      "plugins/limboauth-1.1.14.jar" = pkgs.fetchurl {
+        url = "https://github.com/Elytrium/LimboAuth/releases/download/dev-build/limboauth-1.1.14.jar";
+        sha256 = "1z14hb564mg7l9xg3y93j6c813jvm4bplikyn27s6m3sk0ky7zrq";
+      };
+    };
+  };
+}

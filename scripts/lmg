@@ -1,0 +1,13 @@
+#!/bin/sh
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+if [ "$EUID" -eq 0 ]; then
+    SUDO=""
+else
+    SUDO="sudo"
+fi
+
+echo -e "${CYAN}Listing NixOS generations:${NC}"
+$SUDO nixos-rebuild list-generations

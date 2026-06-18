@@ -1,0 +1,1 @@
+import ./thinkfan.nix

@@ -1,0 +1,17 @@
+keys:
+  - &mac age1500s5ndt33rlw4n9cns6gnd4m8tkhdc6kwh7lg8873nrs7x2ngvs8tltet
+  - &playground2 age15av3s35wcha3egwhlvpjjhgnwmqdn75eazd2javacqfqpfuwqsssk8kcnk
+  - &x230 age180vw9fnqw6rmdwju4umv008j4pkp0jxf0wukyxmjzzmcmzgj2scsnfs66s
+creation_rules:
+  - path_regex: secrets/playground2\.yaml$
+    encrypted_regex: ^.*$
+    key_groups:
+      - age:
+          - *mac
+          - *playground2
+  - path_regex: secrets/x230-.*\.yaml$
+    encrypted_regex: ^(github-token|.*-token|.*-key|.*-secret)$
+    key_groups:
+      - age:
+          - *mac
+          - *x230

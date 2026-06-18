@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SSH_KEY="${SOPS_SSH_KEY:-$HOME/.ssh/agenix_key}"
+
+if [ ! -f "$SSH_KEY" ]; then
+    echo "Error: SSH key not found at $SSH_KEY" >&2
+    exit 1
+fi
+
+AGE_KEY=$(nix shell nixpkgs#ssh-to-age -c ssh-to-age -private-key -i "$SSH_KEY" 2>/dev/null)
+
+if [ -z "$AGE_KEY" ]; then
+    echo "Error: Failed to convert SSH key to age key" >&2
+    exit 1
+fi
+
+export SOPS_AGE_KEY="$AGE_KEY"
+exec sops "$@"

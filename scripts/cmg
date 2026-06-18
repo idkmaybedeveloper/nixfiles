@@ -1,0 +1,47 @@
+#!/bin/sh
+CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+if [ "$EUID" -eq 0 ]; then
+    SUDO=""
+else
+    SUDO="sudo"
+fi
+
+KEEP=${1:-5}
+
+echo -e "${CYAN}Listing NixOS generations:${NC}"
+$SUDO nixos-rebuild list-generations
+
+echo ""
+echo -e "${YELLOW}Removing old generations (keeping last $KEEP)...${NC}"
+
+ALL_GENS=$($SUDO nix-env -p /nix/var/nix/profiles/system --list-generations | awk '{print $1}' | grep -E '^[0-9]+$' | sort -n)
+
+TOTAL_GENS=$(echo "$ALL_GENS" | wc -l | tr -d ' ')
+if [ "$TOTAL_GENS" -le "$KEEP" ]; then
+    echo -e "${GREEN}No generations to remove (only $TOTAL_GENS found, keeping $KEEP)${NC}"
+    exit 0
+fi
+
+REMOVE_COUNT=$((TOTAL_GENS - KEEP))
+TO_REMOVE=$(echo "$ALL_GENS" | head -n $REMOVE_COUNT)
+
+if [ -z "$TO_REMOVE" ]; then
+    echo -e "${GREEN}No generations to remove${NC}"
+    exit 0
+fi
+
+echo -e "${RED}Removing generations: $TO_REMOVE${NC}"
+for gen in $TO_REMOVE; do
+    $SUDO nix-env -p /nix/var/nix/profiles/system --delete-generations $gen
+done
+
+echo ""
+echo -e "${CYAN}Collecting garbage...${NC}"
+$SUDO nix-collect-garbage
+
+echo -e "${GREEN}Done!${NC}"

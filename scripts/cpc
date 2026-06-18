@@ -1,0 +1,4 @@
+#!/bin/sh
+cp -r /etc/nix-darwin /etc/nix-darwin-backup
+rm -rf /etc/nix-darwin/*
+cp -r . /etc/nix-darwin/

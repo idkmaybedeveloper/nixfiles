@@ -1,0 +1,6 @@
+result
+result-*
+.direnv
+*.drv
+.DS_Store
+netrc
