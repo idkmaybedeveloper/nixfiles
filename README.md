@@ -1,4 +1,4 @@
-# nixfiles :3
+# ![](logo.png) nixfiles :3
 
 ok hi this is my one big flake for every machine i own. used to be eight separate
 per-host repos, now it's a monorepo. the code is a bit of a zoo (every host pins
