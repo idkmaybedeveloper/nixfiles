@@ -7,7 +7,7 @@ steps:
       - event: pull_request
         repo: test/test
       - event: push
-        branch: main
+        branch: trunk
     image: bash
     commands:
       -  nix flake check --all-systems # TODO: more systems maybe? (also nix-on-droid check)
