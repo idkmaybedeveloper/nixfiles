@@ -35,6 +35,7 @@ in
         open-vsx.mshr-h.veriloghdl
         open-vsx.ocamllabs.ocaml-platform
         open-vsx.erlang-ls.erlang-ls
+        open-vsx.astro-build.astro-vscode
       ];
       userSettings = {
         "update.mode" = "none";

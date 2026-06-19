@@ -43,6 +43,10 @@
         url = "https://github.com/dmulloy2/ProtocolLib/releases/download/5.4.0/ProtocolLib.jar";
         sha256 = "1kxcbhgzn294dqyvb4m65kgka40vwq4d3i416082svrqnnwplbpf";
       };
+      "plugins/ViaBackwards-5.9.1.jar" = pkgs.fetchurl {
+        url = "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaBackwards/versions/5.9.1/PAPER/ViaBackwards-5.9.1.jar";
+        sha256 = "06fpfcjida94g8mg9w2lxwd2gfp42dvfflafli6vi2zsraxiirid";
+      };
     };
   };
 }
