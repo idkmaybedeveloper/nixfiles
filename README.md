@@ -54,6 +54,6 @@ nix-on-droid switch --flake .#default
 nix flake check --all-systems
 ```
 
-## cat in a readme 🐈
+## cat in a readme :cat:
 
 ![cat](https://cats.cuddles.rs/meow)
