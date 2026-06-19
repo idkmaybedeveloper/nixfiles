@@ -19,9 +19,9 @@
       online-mode = false;
     };
     files = {
-      "plugins/ViaVersion-5.6.0.jar" = pkgs.fetchurl {
-        url = "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.5.1/PAPER/ViaVersion-5.5.1.jar";
-        sha256 = "0s18pghgdrai4493fhzliry5j53h5q0vi7a5xndbf4h2ilk7qar2";
+      "plugins/ViaVersion-5.9.1.jar" = pkgs.fetchurl {
+        url = "https://hangarcdn.papermc.io/plugins/ViaVersion/ViaVersion/versions/5.9.1/PAPER/ViaVersion-5.9.1.jar";
+        sha256 = "00gbdwwbqf56s58p1n4ivcfxgi878gsiv79ihlf8xi9qc5ysjfis";
       };
       "plugins/BetterWhitelist-1.0.1.jar" = pkgs.fetchurl {
         url = "https://github.com/Polda18/BetterWhitelist/releases/download/v1.0.1/BetterWhitelist-1.0.1.jar";
