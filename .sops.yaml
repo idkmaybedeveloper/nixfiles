@@ -15,3 +15,8 @@ creation_rules:
       - age:
           - *mac
           - *x230
+  - path_regex: secrets/m68k\.yaml$
+    encrypted_regex: ^.*$
+    key_groups:
+      - age:
+          - *mac

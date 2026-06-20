@@ -109,6 +109,11 @@
       url = "github:nix-community/nix-on-droid/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-2405";
     };
+
+    vivienne = {
+      url = "git+https://code.cuddles.rs/lain/Vivienne";
+      inputs.nixpkgs.follows = "nixpkgs-2605";
+    };
   };
 
   outputs =
@@ -143,6 +148,7 @@
       nix-minecraft,
       sops-nix,
       nix-on-droid,
+      vivienne,
       ...
     }@inputs:
     let
@@ -219,6 +225,8 @@
 
           modules = [
             ./hosts/darwin/darwin-configuration.nix
+            vivienne.darwinModules.default
+            sops-nix.darwinModules.sops
 
             home-manager-2605.darwinModules.home-manager
             {

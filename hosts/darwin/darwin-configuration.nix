@@ -17,6 +17,7 @@
   imports = [
     ./critical
     ./packages/pkgswheelchair.nix
+    ./services/vivienne.nix
     nix-homebrew.darwinModules.nix-homebrew
   ];
 
