@@ -8,7 +8,7 @@
     ];
     extra-substituters = [
       "https://cache.wejust.rest/labs"
-      "https://shit.cuddles.rs/nixos"
+      "http://shit.cuddles.rs/nixos" #TODO: move to https when fixed
     ];
     extra-trusted-public-keys = [
       "labs:1+w3w/rjRYzPhQals2BIspD0DZSyNmCP+dD76gGQPGU="
