@@ -268,6 +268,7 @@ in
     ostui
     flashrom
     ocamlPackages.ocaml-lsp
+    ilspycmd
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";
