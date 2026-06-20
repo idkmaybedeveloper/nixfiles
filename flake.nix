@@ -114,6 +114,11 @@
       url = "git+https://code.cuddles.rs/lain/Vivienne";
       inputs.nixpkgs.follows = "nixpkgs-2605";
     };
+
+    late-sh = {
+      url = "github:mpiorowski/late-sh";
+      inputs.nixpkgs.follows = "nixpkgs-2605";
+    };
   };
 
   outputs =
@@ -149,6 +154,7 @@
       sops-nix,
       nix-on-droid,
       vivienne,
+      late-sh,
       ...
     }@inputs:
     let
@@ -246,6 +252,7 @@
             }
             {
               nixpkgs.overlays = [
+                late-sh.overlays.default
                 helium.overlays.default
                 (final: prev: {
                   python3Packages = prev.python3Packages.overrideScope (

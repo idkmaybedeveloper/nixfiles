@@ -77,6 +77,7 @@ in
   home.packages = with pkgs; [
     git
     git-lfs
+    late-sh
     pinentry-curses # gpg signing deps
     micro
     gnupg
