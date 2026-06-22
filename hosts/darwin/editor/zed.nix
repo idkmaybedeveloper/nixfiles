@@ -23,6 +23,9 @@
     userSettings = {
       theme = "Catppuccin Mocha";
       disable_ai = true;
+      project_panel = {
+        dock = "left";
+      };
       vim_mode = true;
       auto_update = false;
       telemetry = {
