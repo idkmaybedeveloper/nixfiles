@@ -269,6 +269,9 @@ in
     flashrom
     ocamlPackages.ocaml-lsp
     ilspycmd
+    atproto-goat
+    bsky-cli
+    tokei
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";
