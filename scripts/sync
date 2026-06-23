@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+git add -A
+git commit -m "chore: sync $(date)"
+git push
