@@ -5,5 +5,6 @@
     ./nvim.nix
     ./codeum.nix
     ./zed.nix
+    ./helix.nix
   ];
 }
