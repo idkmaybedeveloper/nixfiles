@@ -1632,11 +1632,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1781952426,
-        "narHash": "sha256-6WterV2nLOwnuBrLnxF6Jj4GonI0JMIUYaVadya75d0=",
+        "lastModified": 1782301668,
+        "narHash": "sha256-oj6EBT9wKxsM11KF8HKFeoToNeSVGekeXBpVPCRoaVk=",
         "ref": "refs/heads/master",
-        "rev": "1270988d70f0ce8d650230e2df26ee2285ab7361",
-        "revCount": 6,
+        "rev": "ddffaaf22967495bf13ab9e0aaa0dda9669c63db",
+        "revCount": 8,
         "type": "git",
         "url": "https://code.cuddles.rs/lain/Vivienne"
       },
