@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   services.nginx.virtualHosts."nickel.wejust.rest" = {
@@ -14,5 +19,3 @@
     reloadServices = [ "nginx" ];
   };
 }
-
-

@@ -2,9 +2,9 @@
 
 {
   /*
-   * SSH banner displayed before authentication
-   * По мотивам: https://nixos.wiki/wiki/SSH
-   */
+    SSH banner displayed before authentication
+    По мотивам: https://nixos.wiki/wiki/SSH
+  */
   environment.etc."motd.ssh".text = ''
     --------------------------------------------------------------------------------
     --------------------------------------------------------------------------------

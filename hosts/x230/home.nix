@@ -1,9 +1,9 @@
 { pkgs, ... }: {
   home.stateVersion = "25.11";
-  
+
   dconf = {
     enable = true;
-    
+
     settings = {
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
       "org/gnome/desktop/background" = {
@@ -21,7 +21,7 @@
       "org/gnome/shell/extensions/dash-to-dock" = {
         dock-position = "bottom";
         autohide = true;
-        icon-size = 32; 
+        icon-size = 32;
       };
 
       "org/gnome/shell" = {

@@ -1,4 +1,11 @@
-{ config, pkgs, nix-minecraft, partials, abs, ... }:
+{
+  config,
+  pkgs,
+  nix-minecraft,
+  partials,
+  abs,
+  ...
+}:
 
 {
   nixpkgs.overlays = [

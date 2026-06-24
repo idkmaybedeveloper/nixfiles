@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   catppuccinSkin = pkgs.fetchFromGitHub {
@@ -8,7 +13,7 @@ let
     hash = "sha256-4fHRbYwz+Ty8871c7OAFSIlUS9pFdEf2Q1ql2OiB234=";
   };
 
-  roundcubeWithSkin = pkgs.runCommand "roundcube-with-catppuccin" {} ''
+  roundcubeWithSkin = pkgs.runCommand "roundcube-with-catppuccin" { } ''
     cp -rT ${pkgs.roundcube} $out
     chmod -R u+w $out
     cp -rT ${catppuccinSkin} $out/plugins/roundcube_catppuccin

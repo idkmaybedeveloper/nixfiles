@@ -35,7 +35,7 @@
         url = "https://github.com/SerlithNetwork/PurpurBars/releases/download/ver-3.0/PurpurBars-3.0-SNAPSHOT.jar";
         sha256 = "11xj4carlipahl7fz253i3ymk2p1hcrkwa71gmhf313x5h0sjksj";
       };
-      "plugins/SkinRestorer.jar" = pkgs.fetchurl { 
+      "plugins/SkinRestorer.jar" = pkgs.fetchurl {
         url = "https://github.com/SkinsRestorer/SkinsRestorer/releases/download/15.9.0/SkinsRestorer.jar";
         sha256 = "1bfjk94dpmr7q4awaq4nzzyg4hv68pqhx2v32a11z6gqmfamj3ab";
       };

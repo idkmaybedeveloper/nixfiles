@@ -5,8 +5,14 @@
   # actually differ (autoUpgrade.channel, substituters, allowUnfree)
   nix.settings = {
     auto-optimise-store = true;
-    trusted-users = [ "root" "@wheel" ];
-    experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [
+      "root"
+      "@wheel"
+    ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
   nix.gc = {
     automatic = true;

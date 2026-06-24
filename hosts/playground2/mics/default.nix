@@ -5,4 +5,3 @@
     ./update-motd/motd.nix
   ];
 }
-

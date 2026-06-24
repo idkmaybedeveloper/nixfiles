@@ -4,6 +4,6 @@
   imports = [
     ./desktop.nix
     ./audio.nix
-	./tailscale.nix
+    ./tailscale.nix
   ];
 }

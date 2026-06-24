@@ -1,4 +1,11 @@
-{ config, pkgs, lib, partials, abs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  partials,
+  abs,
+  ...
+}:
 
 {
   imports = [
@@ -29,14 +36,17 @@
     group = "nixbld";
   };
 
-  environment.etc."somesecrets/github-tokens.conf".source = config.sops.templates.github-token-conf.path;
+  environment.etc."somesecrets/github-tokens.conf".source =
+    config.sops.templates.github-token-conf.path;
 
-  nix.extraOptions = let
-    githubTokenFile = config.sops.templates.github-token-conf.path;
-    fileExists = builtins.pathExists githubTokenFile;
-  in lib.optionalString (config.sops.templates ? github-token-conf && fileExists) ''
-    include ${githubTokenFile}
-  '';
+  nix.extraOptions =
+    let
+      githubTokenFile = config.sops.templates.github-token-conf.path;
+      fileExists = builtins.pathExists githubTokenFile;
+    in
+    lib.optionalString (config.sops.templates ? github-token-conf && fileExists) ''
+      include ${githubTokenFile}
+    '';
 
   system.stateVersion = "25.11";
 }

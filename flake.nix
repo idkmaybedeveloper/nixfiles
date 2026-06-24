@@ -8,7 +8,7 @@
     ];
     extra-substituters = [
       "https://cache.wejust.rest/labs"
-      "http://shit.cuddles.rs/nixos" #TODO: move to https when fixed
+      "http://shit.cuddles.rs/nixos" # TODO: move to https when fixed
     ];
     extra-trusted-public-keys = [
       "labs:1+w3w/rjRYzPhQals2BIspD0DZSyNmCP+dD76gGQPGU="
@@ -18,11 +18,11 @@
 
   inputs = {
     # NOTE: per-host nixpkgs, my favourite nixpkgs versions zoo
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";     # macmini, x230 (eva01)
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # macmini, x230 (eva01)
     nixpkgs-2605.url = "github:NixOS/nixpkgs/release-26.05"; # darwin (m68k)
-    nixpkgs-2511.url = "github:NixOS/nixpkgs/nixos-25.11";   # nixvm, playground1, playground2
-    nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11";   # nixvm (macvm)
-    nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05";   # nix-on-droid
+    nixpkgs-2511.url = "github:NixOS/nixpkgs/nixos-25.11"; # nixvm, playground1, playground2
+    nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11"; # nixvm (macvm)
+    nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05"; # nix-on-droid
 
     # home-manager
     home-manager-2605 = {
@@ -369,7 +369,8 @@
         modules = [ ./hosts/nix-on-droid/nix-on-droid.nix ];
       };
 
-      hydraJobs = { #TODO: reselfhost hydra
+      hydraJobs = {
+        # TODO: reselfhost hydra
         playground1.x86_64-linux = self.nixosConfigurations.playground1.config.system.build.toplevel;
         playground2.x86_64-linux = self.nixosConfigurations.playground2.config.system.build.toplevel;
       };

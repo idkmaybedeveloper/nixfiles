@@ -27,8 +27,19 @@
           character = "|";
         };
         statusline = {
-          left = [ "mode" "spinner" "file-name" "file-modification-indicator" ];
-          right = [ "diagnostics" "selections" "position" "file-encoding" "file-type" ];
+          left = [
+            "mode"
+            "spinner"
+            "file-name"
+            "file-modification-indicator"
+          ];
+          right = [
+            "diagnostics"
+            "selections"
+            "position"
+            "file-encoding"
+            "file-type"
+          ];
         };
         lsp = {
           display-messages = true;

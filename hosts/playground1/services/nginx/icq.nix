@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   services.nginx = {
@@ -38,5 +43,8 @@
     reloadServices = [ "nginx" ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 443 80 ];
+  networking.firewall.allowedTCPPorts = [
+    443
+    80
+  ];
 }

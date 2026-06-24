@@ -1,11 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   services.nginx = {
     upstreams."helium-exts" = {
       servers = {
-        "127.0.0.1:8001" = {};
-        "127.0.0.1:8002" = { backup = true; };
+        "127.0.0.1:8001" = { };
+        "127.0.0.1:8002" = {
+          backup = true;
+        };
       };
     };
   };
@@ -87,4 +94,3 @@
     reloadServices = [ "nginx" ];
   };
 }
-

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.services.aim-oscar-server;
@@ -30,7 +35,7 @@ in
 
     environment = lib.mkOption {
       type = lib.types.attrsOf lib.types.str;
-      default = {};
+      default = { };
       description = "Extra env vars";
     };
   };
@@ -38,9 +43,12 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ aimPkg ];
 
-    networking.firewall.allowedTCPPorts = [ 5190 9898 ];
+    networking.firewall.allowedTCPPorts = [
+      5190
+      9898
+    ];
 
-    users.groups.aimoscar = {};
+    users.groups.aimoscar = { };
     users.users.aimoscar = {
       isSystemUser = true;
       group = "aimoscar";

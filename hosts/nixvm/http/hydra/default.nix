@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -20,9 +25,9 @@
         # rewrite at nginx level. Accept-Encoding "" req for sub_filter
         # HACK:NOTE(kroot): rewrite Origin/Referer to http so Hydras' csrf check passes,
         extraConfig = ''
-        proxy_set_header X-Request-Base https://hydra.wejust.rest; #NOTE(kroot): https://hydra.nixos.org/build/328901960/download/1/hydra/configuration.html
+          proxy_set_header X-Request-Base https://hydra.wejust.rest; #NOTE(kroot): https://hydra.nixos.org/build/328901960/download/1/hydra/configuration.html
         '';
-        };
+      };
       extraLocations."/static/" = {
         alias = "${pkgs.hydra}/libexec/hydra/root/static/";
       };
@@ -44,7 +49,6 @@
   #  };
   #};
 
-  
   services.hydra = {
     enable = true;
     hydraURL = "https://hydra.wejust.rest/";
@@ -57,7 +61,7 @@
       using_frontend_proxy 1
       store_uri = s3://nixos?compression=zstd&parallel-compression=true&write-nar-listing=1&secret-key=/etc/hydra/cache-priv-key.pem&endpoint=https://shit.cuddles.rs&region=us-east-1
       binary_cache_public_uri = https://shit.cuddles.rs/nixos
-    ''; #NOTE(kroot):ref: https://metacpan.org/pod/Catalyst#PROXY-SUPPORT
+    ''; # NOTE(kroot):ref: https://metacpan.org/pod/Catalyst#PROXY-SUPPORT
   };
 
   systemd.services.hydra-queue-runner.serviceConfig.EnvironmentFile = "/etc/hydra/s3-env";

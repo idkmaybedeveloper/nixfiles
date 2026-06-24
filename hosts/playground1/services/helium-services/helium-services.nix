@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   heliumPkg = pkgs.stdenv.mkDerivation {
@@ -137,7 +142,12 @@ in
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
 
-    path = with pkgs; [ curl gzip diffutils gnutar ];
+    path = with pkgs; [
+      curl
+      gzip
+      diffutils
+      gnutar
+    ];
 
     serviceConfig = {
       Type = "simple";
@@ -153,7 +163,12 @@ in
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
 
-    path = with pkgs; [ curl gzip diffutils gnutar ];
+    path = with pkgs; [
+      curl
+      gzip
+      diffutils
+      gnutar
+    ];
 
     serviceConfig = {
       Type = "simple";

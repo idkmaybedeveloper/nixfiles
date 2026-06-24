@@ -1,8 +1,10 @@
 { ... }:
 
 {
-  /* Prune Rosetta JIT bytecode cache and macOS logs to prevent disk bloat. (mostly arm macs thingy)*
-   * ref: https://github.com/nix-darwin/nix-darwin/pull/1165#issuecomment-2477157627                */
+  /*
+    Prune Rosetta JIT bytecode cache and macOS logs to prevent disk bloat. (mostly arm macs thingy)*
+    ref: https://github.com/nix-darwin/nix-darwin/pull/1165#issuecomment-2477157627
+  */
   launchd.daemons = {
     rosetta2-gc = {
       script = ''

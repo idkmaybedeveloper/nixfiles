@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib)
@@ -48,59 +53,65 @@ in
     };
 
     sites = mkOption {
-      type = types.attrsOf (types.submodule ({ name, ... }: {
-        options = {
-          host = mkOption {
-            type = types.str;
-            default = name;
-            description = "server_name for this site.";
-          };
-
-          root = mkOption {
-            type = types.nullOr types.path;
-            default = null;
-            description = "Static root, if serving files.";
-          };
-
-          proxy = mkOption {
-            type = types.nullOr (types.submodule {
-              options = {
-                url = mkOption {
-                  type = types.str;
-                  description = "proxy_pass target, like http://127.0.0.1:9000.";
-                };
-
-                websockets = mkOption {
-                  type = types.bool;
-                  default = false;
-                  description = "Enable proxy_websockets.";
-                };
-
-                passHostHeader = mkOption {
-                  type = types.bool;
-                  default = true;
-                  description = "Set Host and X-Forwarded-* headers.";
-                };
-
-                extraConfig = mkOption {
-                  type = types.lines;
-                  default = "";
-                  description = "Extra nginx config for the proxy location.";
-                };
+      type = types.attrsOf (
+        types.submodule (
+          { name, ... }: {
+            options = {
+              host = mkOption {
+                type = types.str;
+                default = name;
+                description = "server_name for this site.";
               };
-            });
-            default = null;
-            description = "Proxy configuration for this site.";
-          };
 
-          extraLocations = mkOption {
-            type = types.attrsOf (types.attrsOf types.anything);
-            default = {};
-            description = "Extra nginx locations merged into virtualHost.locations.";
-          };
-        };
-      }));
-      default = {};
+              root = mkOption {
+                type = types.nullOr types.path;
+                default = null;
+                description = "Static root, if serving files.";
+              };
+
+              proxy = mkOption {
+                type = types.nullOr (
+                  types.submodule {
+                    options = {
+                      url = mkOption {
+                        type = types.str;
+                        description = "proxy_pass target, like http://127.0.0.1:9000.";
+                      };
+
+                      websockets = mkOption {
+                        type = types.bool;
+                        default = false;
+                        description = "Enable proxy_websockets.";
+                      };
+
+                      passHostHeader = mkOption {
+                        type = types.bool;
+                        default = true;
+                        description = "Set Host and X-Forwarded-* headers.";
+                      };
+
+                      extraConfig = mkOption {
+                        type = types.lines;
+                        default = "";
+                        description = "Extra nginx config for the proxy location.";
+                      };
+                    };
+                  }
+                );
+                default = null;
+                description = "Proxy configuration for this site.";
+              };
+
+              extraLocations = mkOption {
+                type = types.attrsOf (types.attrsOf types.anything);
+                default = { };
+                description = "Extra nginx locations merged into virtualHost.locations.";
+              };
+            };
+          }
+        )
+      );
+      default = { };
       description = "All simple http sites for angie.";
     };
   };
@@ -125,10 +136,10 @@ in
         proxy_set_header X-Forwarded-Port 443;
       ''
       + concatMapStrings (cidr: "        set_real_ip_from ${cidr};\n") cfg.realIpTrustedRanges
-      + ''
-      '';
+      + "";
 
-      virtualHosts = mapAttrs' (name: site:
+      virtualHosts = mapAttrs' (
+        name: site:
         let
           base = {
             serverName = site.host;
@@ -145,25 +156,29 @@ in
           };
 
           proxyLoc =
-            if site.proxy == null then {}
-            else {
-              locations."/" = {
-                proxyPass = site.proxy.url;
-                proxyWebsockets = site.proxy.websockets;
-                extraConfig = (optionalString site.proxy.passHostHeader ''
-                  proxy_set_header Host $host;
-                  proxy_set_header X-Real-IP $remote_addr;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto https;
-                '') + site.proxy.extraConfig;
+            if site.proxy == null then
+              { }
+            else
+              {
+                locations."/" = {
+                  proxyPass = site.proxy.url;
+                  proxyWebsockets = site.proxy.websockets;
+                  extraConfig =
+                    (optionalString site.proxy.passHostHeader ''
+                      proxy_set_header Host $host;
+                      proxy_set_header X-Real-IP $remote_addr;
+                      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                      proxy_set_header X-Forwarded-Proto https;
+                    '')
+                    + site.proxy.extraConfig;
+                };
               };
-            };
         in
         {
           name = site.host;
           value =
             let
-              baseLocations = proxyLoc.locations or {};
+              baseLocations = proxyLoc.locations or { };
             in
             base
             // rootCfg
@@ -186,4 +201,3 @@ in
     '';
   };
 }
-

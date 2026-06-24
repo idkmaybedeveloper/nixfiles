@@ -9,13 +9,12 @@
     [org/gnome/desktop/wm/preferences]
     button-layout = 'minimize,maximize,close:'
   '';
-  
 
   # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   # NOTE: gdm.wayland option dropped with GNOME 50, wayland is the only mode now
   services.desktopManager.gnome.enable = true;
-  
+
   #environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # Configure keymap in X11
@@ -30,11 +29,11 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-  
+
   #services.xsession.pointerCursor = {
   #  package = pkgs.gnome.adwaita-icon-theme;
   #  name = "Adwaita";
   #  size = 38;
   #};
-  environment.gnome.excludePackages = [  pkgs.epiphany ];
+  environment.gnome.excludePackages = [ pkgs.epiphany ];
 }

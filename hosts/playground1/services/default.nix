@@ -1,4 +1,10 @@
-{ config, lib, pkgs, abs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  abs,
+  ...
+}:
 
 {
   imports = [
@@ -16,6 +22,6 @@
   services.aim-oscar-server = {
     enable = true;
     configPath = "/etc/aos/settings.env";
-    environment = {};
+    environment = { };
   };
 }

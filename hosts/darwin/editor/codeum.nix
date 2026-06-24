@@ -4,7 +4,6 @@ let
   marketplace = vscode-extensions.vscode-marketplace;
   open-vsx = vscode-extensions.open-vsx;
 
-
 in
 {
   programs.vscodium = {
@@ -60,7 +59,7 @@ in
       };
     };
   };
- home.packages = with pkgs; [ 
- gopls
- ];
+  home.packages = with pkgs; [
+    gopls
+  ];
 }

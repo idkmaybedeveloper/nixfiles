@@ -1,4 +1,10 @@
-{ config, lib, pkgs, abs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  abs,
+  ...
+}:
 
 {
   sops = {
@@ -28,5 +34,7 @@
     };
   };
 
-  launchd.user.agents.vivienne.serviceConfig.EnvironmentVariables.VIVIENNE_CONFIG = lib.mkForce config.sops.templates."vivienne-config.toml".path;
+  launchd.user.agents.vivienne.serviceConfig.EnvironmentVariables.VIVIENNE_CONFIG =
+    lib.mkForce
+      config.sops.templates."vivienne-config.toml".path;
 }

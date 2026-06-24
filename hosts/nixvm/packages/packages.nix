@@ -1,6 +1,11 @@
-{ config, pkgs, attic, ... }:
+{
+  config,
+  pkgs,
+  attic,
+  ...
+}:
 
-let 
+let
   atticPkg = attic.packages.${pkgs.system}.attic;
 in
 {

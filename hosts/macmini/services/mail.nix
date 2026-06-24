@@ -22,5 +22,11 @@
     virusScanning = false;
   };
 
-  networking.firewall.allowedTCPPorts = [ 25 465 587 993 143 ];
+  networking.firewall.allowedTCPPorts = [
+    25
+    465
+    587
+    993
+    143
+  ];
 }

@@ -1,4 +1,9 @@
-{ config, pkgs, cursed-ping, ... }:
+{
+  config,
+  pkgs,
+  cursed-ping,
+  ...
+}:
 
 let
   cursedPing = cursed-ping.packages.${pkgs.system}.pinger;
