@@ -58,7 +58,7 @@
         ENABLE_OPENID_SIGNUP = false;
       };
       actions = {
-        ENABLED = false;
+        ENABLED = true; #SOMTHING HAPPENS
       };
       other = {
         SHOW_FOOTER_VERSION = false;
