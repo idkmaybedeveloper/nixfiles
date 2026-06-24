@@ -11,8 +11,12 @@
     defaultSopsFile = abs "secrets/m68k.yaml";
     age.keyFile = "/Users/lain/.config/sops/age/keys.txt";
 
-    secrets.vivienne_username = { };
-    secrets.vivienne_password = { };
+    secrets.vivienne_username = {
+      owner = "lain";
+    };
+    secrets.vivienne_password = {
+      owner = "lain";
+    };
   };
 
   services.vivienne = {
