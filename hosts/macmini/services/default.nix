@@ -7,6 +7,6 @@
     ./tailscale.nix
     ./nginx
     ./forgejo
-    ./borrowd.nix
+    #./borrowd.nix TODO: opensource
   ];
 }

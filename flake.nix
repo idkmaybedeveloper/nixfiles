@@ -93,7 +93,7 @@
       url = "git+https://code.wejust.rest/mirror/nixos-mailserver";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    borrowd.url = "git+https://nx.cuddles.rs/lain/borrowd"; # TODO: public release?
+    #borrowd.url = "git+https://nx.cuddles.rs/lain/borrowd"; # TODO: public release?
 
     # playgrounds
     cursed-ping.url = "git+https://git.fuckyougoogle.xyz/lain/cursed-ping";
@@ -147,7 +147,7 @@
       nix-vscode-extensions,
       helium,
       mailserver,
-      borrowd,
+      #borrowd,
       cursed-ping,
       tangled,
       nix-minecraft,
@@ -308,7 +308,7 @@
         macmini = mkNixosSystem {
           nixpkgs = nixpkgs;
           pkgs = mkPkgs nixpkgs "x86_64-linux";
-          specialArgs = { inherit borrowd; };
+          #specialArgs = { inherit borrowd; };
           modules = [
             ./hosts/macmini/configuration.nix
             mailserver.nixosModules.mailserver
