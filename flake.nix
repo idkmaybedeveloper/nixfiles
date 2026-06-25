@@ -19,7 +19,7 @@
   inputs = {
     # NOTE: per-host nixpkgs, my favourite nixpkgs versions zoo
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # macmini, x230 (eva01)
-    nixpkgs-2605.url = "github:NixOS/nixpkgs/release-26.05"; # darwin (m68k)
+    nixpkgs-2605.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin"; # darwin (m68k)
     nixpkgs-2511.url = "github:NixOS/nixpkgs/nixos-25.11"; # nixvm, playground1, playground2
     nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11"; # nixvm (macvm)
     nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05"; # nix-on-droid
