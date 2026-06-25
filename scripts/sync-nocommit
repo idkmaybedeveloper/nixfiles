@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+git push --all origin -u
+git push --all origin2
+git push --all origin3
