@@ -5,5 +5,6 @@
     ./shell.nix
     ./git.nix
     ./vi.nix
+    ./mail.nix
   ];
 }

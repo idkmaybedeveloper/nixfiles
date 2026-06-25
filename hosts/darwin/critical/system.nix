@@ -19,6 +19,10 @@
     "boot-args" = "-arm64e_preview_abi -v";
   };
 
+  system.activationScripts.postActivation.text = ''
+    echo "nya :33"
+  '';
+
   system.activationScripts.extraActivation.text = ''
     launchctl asuser "$(id -u lain)" sudo -u lain /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${pkgs.nixos-artwork.wallpapers.binary-black}/share/backgrounds/nixos/nix-wallpaper-binary-black.png\""
   ''; # :scared:
