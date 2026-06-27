@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 
+let
+  wallpaper = pkgs.fetchurl {
+    url = "https://cloud.wejust.rest/7a395c38af3e39ada0e8aef5049ebb287bd0a09df4d0f403554e85586d596a87/aluminium-os-stock-3636x3636-26372.jpeg";
+    hash = "sha256-ejlcOK8+Oa2g6K71BJ67KHvQoJ300PQDVU6FWG1Zaoc=";
+  };
+in
 {
   security.pki.certificateFiles = [
     (pkgs.fetchurl {
@@ -24,6 +30,6 @@
   '';
 
   system.activationScripts.extraActivation.text = ''
-    launchctl asuser "$(id -u lain)" sudo -u lain /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${pkgs.nixos-artwork.wallpapers.binary-black}/share/backgrounds/nixos/nix-wallpaper-binary-black.png\""
+    launchctl asuser "$(id -u lain)" sudo -u lain /usr/bin/osascript -e "tell application \"Finder\" to set desktop picture to POSIX file \"${wallpaper}\""
   ''; # :scared:
 }
