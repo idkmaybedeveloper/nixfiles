@@ -41,7 +41,9 @@ in
         "update.mode" = "none";
         "extensions.autoUpdate" = false;
         "extensions.autoCheckUpdates" = false;
-        "workbench.colorTheme" = "Catppuccin Mocha";
+        "window.autoDetectColorScheme" = true;
+        "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
+        "workbench.preferredLightColorTheme" = "Catppuccin Latte";
         "nix.serverPath" = "nil";
         "dotnetAcquisitionExtension.existingDotnetPath" = [
           {
@@ -54,6 +56,10 @@ in
         "workbench.colorCustomizations" = {
           "[Catppuccin Mocha]" = {
             "editor.lineHighlightBackground" = "#45475a50";
+            "editor.lineHighlightBorder" = "#00000000";
+          };
+          "[Catppuccin Latte]" = {
+            "editor.lineHighlightBackground" = "#ccd0da50";
             "editor.lineHighlightBorder" = "#00000000";
           };
         };
