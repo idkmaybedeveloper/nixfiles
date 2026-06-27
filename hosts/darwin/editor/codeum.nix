@@ -35,6 +35,7 @@ in
         open-vsx.ocamllabs.ocaml-platform
         open-vsx.erlang-ls.erlang-ls
         open-vsx.astro-build.astro-vscode
+        marketplace.leonardssh.vscord
       ];
       userSettings = {
         "update.mode" = "none";
