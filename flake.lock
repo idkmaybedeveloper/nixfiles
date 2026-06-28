@@ -454,11 +454,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1781979119,
-        "narHash": "sha256-PgPx0A0ulELTJ07ifrvPoXIQUMcuyBUSkLfuHzd3Z+w=",
+        "lastModified": 1782650865,
+        "narHash": "sha256-14ewwkebw/MGLbtQEzxKQ/RDZhi8yWrdXNBiDMB26tc=",
         "ref": "refs/heads/master",
-        "rev": "7d4ddac576a75d2dd4150f2876ba271a883528e9",
-        "revCount": 7,
+        "rev": "b0d34656171da65b4094c8d2efcf9379e428e749",
+        "revCount": 8,
         "type": "git",
         "url": "https://code.wejust.rest/lain/helium-mac.git"
       },
@@ -1114,11 +1114,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1781607440,
-        "narHash": "sha256-rxO+uc/KFbSJp+pgyXRuAX6QlG9hJdnt0BXpEQRXY+U=",
+        "lastModified": 1782175435,
+        "narHash": "sha256-EMzXKmnOtBQ2MnvpiNOm7E+kOMvdPrIKaeg52Tip2Uk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3e41b24abd260e8f71dbe2f5737d24122f972158",
+        "rev": "89570f24e97e614aa34aa9ab1c927b6578a43775",
         "type": "github"
       },
       "original": {
