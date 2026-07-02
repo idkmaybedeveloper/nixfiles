@@ -17,9 +17,7 @@ todo:
 
 - regenerate `hardware-configuration.nix` on the device if the initrd module
   list is off (the committed one is a sane SL3/NVMe guess)
-- make a real `secrets/alphys-github-token.yaml` (+ `&alphys` age key and a
-  creation_rule in `.sops.yaml`); until then it borrows the x230 sops file
-
+  
 ## catcatcatcatcatcatcatcatcatcatcatcatcatcatcatcatcatcat
 
 ![cat](https://cataas.com/cat)
