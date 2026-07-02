@@ -17,7 +17,10 @@
     settings = {
       "org/gnome/desktop/interface".color-scheme = "prefer-dark";
       "org/gnome/desktop/background" = {
-        picture-uri-dark = "file://${pkgs.nixos-artwork.wallpapers.nineish-catppuccin-mocha.src}";
+        picture-uri-dark = "file://${pkgs.fetchurl {
+          url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
+          hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
+        }}";
       };
 
       "org/gnome/desktop/peripherals/mouse".speed = 0.6;
