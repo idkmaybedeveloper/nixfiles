@@ -55,6 +55,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # helium browser for linux (alphys). the other `helium` input is the mac build
+    helium-linux = {
+      url = "github:schembriaiden/helium-browser-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # darwin (m68k)
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -145,6 +150,7 @@
       attic,
       nixos-hardware,
       disko,
+      helium-linux,
       nix-homebrew,
       homebrew-core,
       homebrew-cask,

@@ -10,11 +10,22 @@
         picture-uri-dark = "file://${pkgs.nixos-artwork.wallpapers.nineish-catppuccin-mocha.src}";
       };
 
+      "org/gnome/desktop/peripherals/mouse".speed = 0.6;
+      "org/gnome/desktop/peripherals/touchpad".speed = 0.5;
+
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = with pkgs.gnomeExtensions; [
           blur-my-shell.extensionUuid
           appindicator.extensionUuid
+        ];
+        favorite-apps = [
+          "org.gnome.Nautilus.desktop"
+          "io.github.kukuruzka165.materialgram.desktop"
+          "supersonic.desktop"
+          "blackbox"
+          "com.raggesilver.BlackBox.desktop"
+          "net.imput.helium.desktop"
         ];
       };
 
@@ -22,16 +33,6 @@
         dock-position = "bottom";
         autohide = true;
         icon-size = 32;
-      };
-
-      "org/gnome/shell" = {
-        favorite-apps = [
-          "org.gnome.Nautilus.desktop"
-          "io.github.kukuruzka165.materialgram.desktop"
-          "supersonic.desktop"
-          "blackbox"
-          "com.raggesilver.BlackBox.desktop"
-        ];
       };
     };
   };
