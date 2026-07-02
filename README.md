@@ -15,6 +15,7 @@ its own nixpkgs) but welp, it works :3
 | `playground1` | hostkey vds, runs a pile of services | 25.11 |
 | `playground2` | hostkey vds, minecraft mostly | 25.11 |
 | `eva01` | thinkpad x230, secondary laptop | unstable |
+| `alphys` | surface laptop 3 (linux-surface kernel, disko) | unstable |
 | `default` (nix-on-droid) | phone (pixel 3a) | 24.05 |
 
 ## how its wired
@@ -36,7 +37,7 @@ and `abs "path"` (absolute path from the repo root).
 note to self on what has to exist on the host manually:
 
 - `/home/lain/.ssh/agenix_key` - private age key for sops decryption
-  (needed on `playground2` and `eva01`)
+  (needed on `playground2`, `eva01` and `alphys`)
 
 ## setting up
 

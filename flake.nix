@@ -50,6 +50,11 @@
 
     # shared
     attic.url = "github:zhaofengli/attic";
+    nixos-hardware.url = "github:NixOS/nixos-hardware"; # alphys (surface laptop 3)
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # darwin (m68k)
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -138,6 +143,8 @@
       darwin-2605,
       darwin-2511,
       attic,
+      nixos-hardware,
+      disko,
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
@@ -362,6 +369,23 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.lain = import ./hosts/x230/home.nix;
+            }
+          ];
+        };
+
+        # alphys (surface laptop 3)
+        alphys = mkNixosSystem {
+          nixpkgs = nixpkgs;
+          modules = [
+            ./hosts/alphys/configuration.nix
+            nixos-hardware.nixosModules.microsoft-surface-common
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            sops-nix.nixosModules.sops
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.lain = import ./hosts/alphys/home.nix;
             }
           ];
         };

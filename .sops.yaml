@@ -2,6 +2,7 @@ keys:
   - &mac age1500s5ndt33rlw4n9cns6gnd4m8tkhdc6kwh7lg8873nrs7x2ngvs8tltet
   - &playground2 age15av3s35wcha3egwhlvpjjhgnwmqdn75eazd2javacqfqpfuwqsssk8kcnk
   - &x230 age180vw9fnqw6rmdwju4umv008j4pkp0jxf0wukyxmjzzmcmzgj2scsnfs66s
+  - &alphys age1z5eywlq5s6y4zvspujeknx8q908j4vx6epjs482rtrzmclj3f3hsjgnpn0
 creation_rules:
   - path_regex: secrets/playground2\.yaml$
     encrypted_regex: ^.*$
@@ -15,6 +16,12 @@ creation_rules:
       - age:
           - *mac
           - *x230
+  - path_regex: secrets/alphys-.*\.yaml$
+    encrypted_regex: ^(github-token|.*-token|.*-key|.*-secret)$
+    key_groups:
+      - age:
+          - *mac
+          - *alphys
   - path_regex: secrets/m68k\.yaml$
     encrypted_regex: ^.*$
     key_groups:

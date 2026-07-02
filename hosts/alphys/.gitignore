@@ -1,0 +1,6 @@
+secrets/github-token.txt
+secrets/*.age
+secrets/age-idenitities
+secrets/*.yaml
+!.sops.yaml
+!secrets/github-token.yaml
