@@ -9,13 +9,13 @@
     extra-substituters = [
       "https://cache.wejust.rest/labs"
       "http://shit.cuddles.rs/nixos" # TODO: move to https when fixed
-      "https://nix-community.cachix.org"
+      #"https://nix-community.cachix.org" OHNO timeout
       "http://shit.cuddles.rs/mac"  # mac cache from my macboob (m68k)
     ];
     extra-trusted-public-keys = [
       "labs:1+w3w/rjRYzPhQals2BIspD0DZSyNmCP+dD76gGQPGU="
       "shit.cuddles.rs:HQ4GqwV3aPbneoDdl4diqMcRjmusLqtQkETdebH62sk="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      #"nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "mac.air-m3:nb7c5XDpotsC9UgU/g4r1zBDc85KK0bGNDfR7zCSDmQ="
     ];
   };
