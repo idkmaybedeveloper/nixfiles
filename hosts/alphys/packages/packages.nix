@@ -33,10 +33,12 @@
     whois
     blackbox-terminal
     ripgrep
+    bat
+    kubectl
     go
     gcc
     clang
-    supersonic
+    gelly
     tailscale
     file
     helium

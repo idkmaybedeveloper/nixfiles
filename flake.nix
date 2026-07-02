@@ -391,7 +391,12 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.lain = import ./hosts/alphys/home.nix;
+              home-manager.users.lain =
+                { config, pkgs, ... }:
+                {
+                  imports = [ ./hosts/alphys/home.nix ];
+                  _module.args.vscode-extensions = nix-vscode-extensions.extensions.x86_64-linux;
+                };
             }
           ];
         };

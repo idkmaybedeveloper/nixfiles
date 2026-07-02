@@ -1,6 +1,16 @@
 { pkgs, ... }: {
   home.stateVersion = "25.11";
 
+  imports = [ ./editor ];
+
+  programs.git = {
+    enable = true;
+    settings = {
+      user.name = "lain";
+      user.email = "lain@iwakura.page";
+    };
+  };
+
   dconf = {
     enable = true;
 
@@ -13,19 +23,22 @@
       "org/gnome/desktop/peripherals/mouse".speed = 0.6;
       "org/gnome/desktop/peripherals/touchpad".speed = 0.5;
 
+      "org/gnome/desktop/wm/preferences".button-layout = "appmenu:minimize,maximize,close";
+
       "org/gnome/shell" = {
         disable-user-extensions = false;
         enabled-extensions = with pkgs.gnomeExtensions; [
           blur-my-shell.extensionUuid
           appindicator.extensionUuid
+          dash-to-dock.extensionUuid
         ];
         favorite-apps = [
           "org.gnome.Nautilus.desktop"
           "io.github.kukuruzka165.materialgram.desktop"
-          "supersonic.desktop"
-          "blackbox"
+          "io.m51.Gelly.desktop"
           "com.raggesilver.BlackBox.desktop"
-          "net.imput.helium.desktop"
+          "helium.desktop"
+          "codium.desktop"
         ];
       };
 
