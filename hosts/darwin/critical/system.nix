@@ -2,8 +2,8 @@
 
 let
   wallpaper = pkgs.fetchurl {
-    url = "https://cloud.wejust.rest/7a395c38af3e39ada0e8aef5049ebb287bd0a09df4d0f403554e85586d596a87/aluminium-os-stock-3636x3636-26372.jpeg";
-    hash = "sha256-ejlcOK8+Oa2g6K71BJ67KHvQoJ300PQDVU6FWG1Zaoc=";
+    url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
+    hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
   };
 in
 {
