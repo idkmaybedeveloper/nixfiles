@@ -21,10 +21,10 @@
     partials.sops-base
   ];
 
-  sops.defaultSopsFile = abs "secrets/x230-github-token.yaml";
+  sops.defaultSopsFile = abs "secrets/alphys-github-token.yaml";
 
   sops.secrets.github-token = {
-    sopsFile = abs "secrets/x230-github-token.yaml";
+    sopsFile = abs "secrets/alphys-github-token.yaml";
     key = "github-token";
   };
 
