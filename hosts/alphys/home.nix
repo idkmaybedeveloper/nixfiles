@@ -19,18 +19,10 @@ let
     driftwm msg screenshot window -o - | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy
   '';
 
-  # GIT_ASKPASS helper: prompts via pinentry-curses instead of the default
+  # GIT_ASKPASS helper: prompts via gum (TUI) instead of the default
   # terminal echo prompt when git asks for an https username/password.
-  gitAskpassCurses = pkgs.writeShellScript "git-askpass-pinentry-curses" ''
-    prompt="$1"
-    ttyname="$(tty)"
-    {
-      echo "OPTION ttyname=$ttyname"
-      echo "OPTION ttytype=''${TERM:-xterm}"
-      echo "SETDESC $prompt"
-      echo "SETPROMPT $prompt"
-      echo "GETPIN"
-    } | ${pkgs.pinentry-curses}/bin/pinentry-curses | sed -n 's/^D //p'
+  gitAskpassGum = pkgs.writeShellScript "git-askpass-gum" ''
+    ${pkgs.gum}/bin/gum input --password --placeholder "$1" </dev/tty
   '';
 in
 {
@@ -43,11 +35,12 @@ in
     settings = {
       user.name = "lain";
       user.email = "lain@iwakura.page";
-      core.askPass = "${gitAskpassCurses}";
+      core.askPass = "${gitAskpassGum}";
+      credential.helper = "cache --timeout=28800";
     };
   };
 
-  home.sessionVariables.GIT_ASKPASS = "${gitAskpassCurses}";
+  home.sessionVariables.GIT_ASKPASS = "${gitAskpassGum}";
 
   # dark theme for gtk/qt apps (no gnome-shell to flip this globally anymore)
   gtk = {
