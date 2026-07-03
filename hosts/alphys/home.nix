@@ -18,6 +18,33 @@ in
     };
   };
 
+  # dark theme for gtk/qt apps (no gnome-shell to flip this globally anymore)
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+    iconTheme = {
+      name = "Adwaita";
+      package = pkgs.adwaita-icon-theme;
+    };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+  };
+
+  # xdg-desktop-portal-gtk/gnome read this for the org.freedesktop.appearance
+  # color-scheme portal (libadwaita apps, GTK4 dark mode)
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -105,7 +132,7 @@ in
     accel_speed = 0.3
 
     [input.mouse]
-    accel_speed = 0.2
+    accel_speed = 0.6
 
     [background]
     type = "wallpaper"
