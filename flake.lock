@@ -183,6 +183,26 @@
         "type": "github"
       }
     },
+    "driftwm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783028769,
+        "narHash": "sha256-lJpc7BGZZh5R3HF929dzOQMfEe7bu+OYJbStc2m/6DQ=",
+        "owner": "malbiruk",
+        "repo": "driftwm",
+        "rev": "ef38747d11b2d94440ec5f0f944abea40d974f5b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "malbiruk",
+        "repo": "driftwm",
+        "type": "github"
+      }
+    },
     "fenix": {
       "inputs": {
         "nixpkgs": [
@@ -1372,6 +1392,7 @@
         "darwin-2511": "darwin-2511",
         "darwin-2605": "darwin-2605",
         "disko": "disko",
+        "driftwm": "driftwm",
         "helium": "helium",
         "helium-linux": "helium-linux",
         "home-manager": "home-manager",

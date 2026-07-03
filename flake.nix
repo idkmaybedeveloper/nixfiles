@@ -60,6 +60,11 @@
       url = "github:schembriaiden/helium-browser-nix-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # driftwm wayland compositor (alphys)
+    driftwm = {
+      url = "github:malbiruk/driftwm";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # darwin (m68k)
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
@@ -151,6 +156,7 @@
       nixos-hardware,
       disko,
       helium-linux,
+      driftwm,
       nix-homebrew,
       homebrew-core,
       homebrew-cask,
@@ -386,6 +392,7 @@
             ./hosts/alphys/configuration.nix
             nixos-hardware.nixosModules.microsoft-surface-common
             disko.nixosModules.disko
+            driftwm.nixosModules.default
             home-manager.nixosModules.home-manager
             sops-nix.nixosModules.sops
             {

@@ -1,4 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+let
+  wallpaper = pkgs.fetchurl {
+    url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
+    hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
+  };
+in
+{
   home.stateVersion = "25.11";
 
   imports = [ ./editor ];
@@ -11,45 +18,104 @@
     };
   };
 
-  dconf = {
+  programs.fuzzel = {
     enable = true;
-
     settings = {
-      "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-      "org/gnome/desktop/background" = {
-        picture-uri-dark = "file://${pkgs.fetchurl {
-          url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
-          hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
-        }}";
+      main = {
+        font = "sans-serif:size=11";
+        terminal = "${pkgs.alacritty}/bin/alacritty";
       };
-
-      "org/gnome/desktop/peripherals/mouse".speed = 0.6;
-      "org/gnome/desktop/peripherals/touchpad".speed = 0.5;
-
-      "org/gnome/desktop/wm/preferences".button-layout = "appmenu:minimize,maximize,close";
-
-      "org/gnome/shell" = {
-        disable-user-extensions = false;
-        enabled-extensions = with pkgs.gnomeExtensions; [
-          blur-my-shell.extensionUuid
-          appindicator.extensionUuid
-          dash-to-dock.extensionUuid
-        ];
-        favorite-apps = [
-          "org.gnome.Nautilus.desktop"
-          "io.github.kukuruzka165.materialgram.desktop"
-          "io.m51.Gelly.desktop"
-          "com.raggesilver.BlackBox.desktop"
-          "helium.desktop"
-          "codium.desktop"
-        ];
+      colors = {
+        background = "1e1e2edd";
+        text = "cdd6f4ff";
+        match = "89b4faff";
+        selection = "313244ff";
+        selection-text = "cdd6f4ff";
+        border = "89b4faff";
       };
-
-      "org/gnome/shell/extensions/dash-to-dock" = {
-        dock-position = "bottom";
-        autohide = true;
-        icon-size = 32;
-      };
+      border.radius = 8;
     };
   };
+
+  programs.waybar = {
+    enable = true;
+    settings = {
+      mainBar = {
+        layer = "top";
+        position = "top";
+        height = 28;
+        modules-left = [ "clock" ];
+        modules-center = [ ];
+        modules-right = [
+          "tray"
+          "pulseaudio"
+          "network"
+          "battery"
+        ];
+        clock.format = "{:%Y-%m-%d %H:%M}";
+        battery = {
+          format = "{capacity}% {icon}";
+          format-icons = [
+            "󰁺"
+            "󰁽"
+            "󰂀"
+            "󰂂"
+            "󰁹"
+          ];
+        };
+        network.format = "{ifname}: {ipaddr}";
+        network.format-disconnected = "disconnected";
+        pulseaudio.format = "{volume}% {icon}";
+        pulseaudio.format-muted = "muted";
+        tray.spacing = 8;
+      };
+    };
+    style = ''
+      * {
+        font-family: sans-serif;
+        font-size: 12px;
+      }
+      window#waybar {
+        background: rgba(30, 30, 46, 0.85);
+        color: #cdd6f4;
+      }
+      #battery, #network, #pulseaudio, #tray, #clock {
+        padding: 0 8px;
+      }
+    '';
+  };
+
+  services.swaync.enable = true;
+
+  # driftwm compositor config: https://github.com/malbiruk/driftwm/blob/master/docs/config.md
+  xdg.configFile."driftwm/config.toml".text = ''
+    autostart = [
+      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1",
+      "waybar",
+      "swaync",
+    ]
+
+    [input.keyboard]
+    layout = "us,ru"
+    options = "grp:alt_shift_toggle"
+
+    [input.trackpad]
+    natural_scroll = true
+    tap_to_click = true
+    accel_speed = 0.3
+
+    [input.mouse]
+    accel_speed = 0.2
+
+    [background]
+    type = "wallpaper"
+    path = "${wallpaper}"
+
+    [decorations]
+    bg_color = "#1e1e2e"
+    fg_color = "#cdd6f4"
+
+    [keybindings]
+    "mod+n" = "spawn swaync-client -t"
+  '';
 }

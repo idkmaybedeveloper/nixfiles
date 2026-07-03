@@ -19,11 +19,6 @@
     duf
     fastfetch
     materialgram
-    adwaita-icon-theme
-    gnomeExtensions.appindicator
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.blur-my-shell
-    nixos-artwork.wallpapers.nineish-catppuccin-mocha
     btop
     htop
     gitoxide
@@ -44,5 +39,16 @@
     helium
     tea
     bazelisk
+
+    # driftwm deps
+    alacritty
+    swaylock
+    swayidle
+    grim
+    slurp
+    wl-clipboard
+    brightnessctl
+    playerctl
+    polkit_gnome
   ];
 }
