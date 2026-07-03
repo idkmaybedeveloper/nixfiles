@@ -10,5 +10,6 @@
     nmap
     rustscan
     metasploit
+    pixiewps
   ];
 }

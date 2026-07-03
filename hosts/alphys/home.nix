@@ -24,6 +24,11 @@ let
   gitAskpassGum = pkgs.writeShellScript "git-askpass-gum" ''
     ${pkgs.gum}/bin/gum input --password --placeholder "$1" </dev/tty
   '';
+
+  importSessionEnv = pkgs.writeShellScript "import-session-env" ''
+    systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY
+    systemctl --user start graphical-session.target
+  '';
 in
 {
   home.stateVersion = "25.11";
@@ -179,9 +184,12 @@ in
   # driftwm compositor config: https://github.com/malbiruk/driftwm/blob/master/docs/config.md
   xdg.configFile."driftwm/config.toml".text = ''
     autostart = [
+      "${importSessionEnv}",
       "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1",
       "waybar",
       "swaync",
+      # night mode always on
+      "${pkgs.wlsunset}/bin/wlsunset -t 2700 -T 2701 -S 06:00 -s 18:00",
     ]
 
     [input.keyboard]
