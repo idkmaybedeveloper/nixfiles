@@ -43,5 +43,6 @@
     file
     helium
     tea
+    bazelisk
   ];
 }
