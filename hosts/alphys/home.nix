@@ -23,7 +23,10 @@ let
   # terminal echo prompt when git asks for an https username/password.
   gitAskpassCurses = pkgs.writeShellScript "git-askpass-pinentry-curses" ''
     prompt="$1"
+    ttyname="$(tty)"
     {
+      echo "OPTION ttyname=$ttyname"
+      echo "OPTION ttytype=''${TERM:-xterm}"
       echo "SETDESC $prompt"
       echo "SETPROMPT $prompt"
       echo "GETPIN"
