@@ -18,6 +18,17 @@ let
     mkdir -p "$HOME/Pictures/Screenshots"
     driftwm msg screenshot window -o - | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy
   '';
+
+  # GIT_ASKPASS helper: prompts via pinentry-curses instead of the default
+  # terminal echo prompt when git asks for an https username/password.
+  gitAskpassCurses = pkgs.writeShellScript "git-askpass-pinentry-curses" ''
+    prompt="$1"
+    {
+      echo "SETDESC $prompt"
+      echo "SETPROMPT $prompt"
+      echo "GETPIN"
+    } | ${pkgs.pinentry-curses}/bin/pinentry-curses </dev/tty 2>/dev/tty | sed -n 's/^D //p'
+  '';
 in
 {
   home.stateVersion = "25.11";
@@ -29,8 +40,11 @@ in
     settings = {
       user.name = "lain";
       user.email = "lain@iwakura.page";
+      core.askPass = "${gitAskpassCurses}";
     };
   };
+
+  home.sessionVariables.GIT_ASKPASS = "${gitAskpassCurses}";
 
   # dark theme for gtk/qt apps (no gnome-shell to flip this globally anymore)
   gtk = {
