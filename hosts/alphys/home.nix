@@ -124,6 +124,33 @@ in
 
   services.swaync.enable = true;
 
+  # idle handling: screen off after 5 min, lock+suspend after 10 min,
+  # and always lock right before any suspend (lid close, manual suspend, etc).
+  services.swayidle = {
+    enable = true;
+    timeouts = [
+      {
+        timeout = 300;
+        command = "${pkgs.wlopm}/bin/wlopm --off '*'";
+        resumeCommand = "${pkgs.wlopm}/bin/wlopm --on '*'";
+      }
+      {
+        timeout = 600;
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+    ];
+    events = [
+      {
+        event = "before-sleep";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+      {
+        event = "lock";
+        command = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+      }
+    ];
+  };
+
   # driftwm compositor config: https://github.com/malbiruk/driftwm/blob/master/docs/config.md
   xdg.configFile."driftwm/config.toml".text = ''
     autostart = [

@@ -56,6 +56,7 @@
     # driftwm deps
     swaylock
     swayidle
+    wlopm
     grim
     slurp
     wl-clipboard
