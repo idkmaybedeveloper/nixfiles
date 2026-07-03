@@ -103,7 +103,8 @@ in
           "network"
           "battery"
         ];
-        clock.format = "{:%Y-%m-%d %H:%M}";
+        clock.format = "{:%Y-%m-%d %H:%M:%S}";
+        clock.interval = 1;
         battery = {
           format = "{capacity}% {icon}";
           format-icons = [
@@ -175,7 +176,7 @@ in
 
     [input.keyboard]
     layout = "us,ru"
-    options = "grp:alt_shift_toggle"
+    options = "grp:win_space_toggle"
 
     [input.trackpad]
     natural_scroll = true
