@@ -10,6 +10,19 @@
   imports = [ ./skid.nix ];
   nixpkgs.overlays = [ inputs.helium-linux.overlays.default ];
   programs.fish.enable = true;
+
+  # nerd font for waybar/fuzzel icon glyphs + a proper sans/mono fallback
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.symbols-only
+    noto-fonts
+    noto-fonts-emoji
+  ];
+  fonts.fontconfig.defaultFonts = {
+    monospace = [ "JetBrainsMono Nerd Font" ];
+    sansSerif = [ "Noto Sans" ];
+    emoji = [ "Noto Color Emoji" ];
+  };
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -41,7 +54,6 @@
     bazelisk
 
     # driftwm deps
-    alacritty
     swaylock
     swayidle
     grim

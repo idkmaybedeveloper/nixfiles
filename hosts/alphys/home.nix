@@ -45,11 +45,21 @@ in
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal.family = "JetBrainsMono Nerd Font";
+        size = 11;
+      };
+    };
+  };
+
   programs.fuzzel = {
     enable = true;
     settings = {
       main = {
-        font = "sans-serif:size=11";
+        font = "JetBrainsMono Nerd Font:size=11";
         terminal = "${pkgs.alacritty}/bin/alacritty";
       };
       colors = {
@@ -99,7 +109,7 @@ in
     };
     style = ''
       * {
-        font-family: sans-serif;
+        font-family: "JetBrainsMono Nerd Font", sans-serif;
         font-size: 12px;
       }
       window#waybar {
