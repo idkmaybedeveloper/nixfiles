@@ -3,6 +3,10 @@
 {
   services.xserver.enable = true;
 
+  # provides the dconf-service dbus .service file so home-manager's
+  # dconf.settings can dbus-activate ca.desrt.dconf during activation
+  programs.dconf.enable = true;
+
   services.displayManager.ly = {
     enable = true;
     settings = {
