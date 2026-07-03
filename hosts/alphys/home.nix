@@ -27,7 +27,7 @@ let
       echo "SETDESC $prompt"
       echo "SETPROMPT $prompt"
       echo "GETPIN"
-    } | ${pkgs.pinentry-curses}/bin/pinentry-curses </dev/tty 2>/dev/tty | sed -n 's/^D //p'
+    } | ${pkgs.pinentry-curses}/bin/pinentry-curses | sed -n 's/^D //p'
   '';
 in
 {
