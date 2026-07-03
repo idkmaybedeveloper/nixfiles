@@ -3,7 +3,18 @@
 {
   services.xserver.enable = true;
 
-  services.displayManager.gdm.enable = true;
+  services.displayManager.ly = {
+    enable = true;
+    settings = {
+      animation = "dur_file";
+      dur_file_path = toString (
+        pkgs.fetchurl {
+          url = "https://cloud.wejust.rest/7d19b4c2592af7f19d2eb5413b33049d01bf8b69e0fae188cead2ef61bb79bd8/blackhole-smooth-240x67.dur";
+          hash = "sha256-fRm0wlkq9/GdLrVBOzMEnQG/i2ng+uGIzq0u9hu3m9g=";
+        }
+      );
+    };
+  };
   programs.driftwm.enable = true;
 
   # lid close -> actually suspend (screen off, real sleep).
@@ -15,7 +26,7 @@
     HandleLidSwitchDocked = "suspend";
   };
 
-  # Configure keymap (used by GDM greeter; driftwm sets its own via config.toml)
+  # Configure keymap (driftwm sets its own via config.toml)
   services.xserver.xkb = {
     layout = "us,ru";
     variant = "";
