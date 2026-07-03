@@ -7,6 +7,11 @@
     enable = true;
     settings = {
       animation = "dur_file";
+      # NOTE(kroot): https://codeberg.org/fairyglade/ly/src/branch/master/src/config/migrator.zig
+      # ly's nixpkgs module ships a minimal defaultConfig with no color fields, which trips
+      # the legacy-config migrator into forcing full_color = false; our .dur theme is
+      # colorFormat "256" and needs full_color = true, so set it explicitly.
+      full_color = true;
       dur_file_path = toString (
         pkgs.fetchurl {
           url = "https://cloud.wejust.rest/7d19b4c2592af7f19d2eb5413b33049d01bf8b69e0fae188cead2ef61bb79bd8/blackhole-smooth-240x67.dur";
