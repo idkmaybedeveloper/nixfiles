@@ -4,6 +4,20 @@ let
     url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
     hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
   };
+
+  # screenshots go to ~/Pictures/Screenshots and also to the clipboard via wl-copy
+  screenshotFull = pkgs.writeShellScript "screenshot-full" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    grim - | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy
+  '';
+  screenshotRegion = pkgs.writeShellScript "screenshot-region" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    grim -g "$(slurp -d)" - | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy
+  '';
+  screenshotWindow = pkgs.writeShellScript "screenshot-window" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    driftwm msg screenshot window -o - | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" | wl-copy
+  '';
 in
 {
   home.stateVersion = "25.11";
@@ -181,5 +195,8 @@ in
 
     [keybindings]
     "mod+n" = "spawn swaync-client -t"
+    "Print" = "spawn ${screenshotFull}"
+    "shift+Print" = "spawn ${screenshotRegion}"
+    "ctrl+Print" = "spawn ${screenshotWindow}"
   '';
 }
