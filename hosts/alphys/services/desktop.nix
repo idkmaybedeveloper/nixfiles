@@ -26,6 +26,21 @@
   };
   programs.driftwm.enable = true;
 
+  # driftwm doesn't ship its own xdg-desktop-portal impl, so ScreenCast (OBS's
+  # "Screen Capture (PipeWire)" source) needs xdg-desktop-portal-wlr explicitly.
+  # gtk portal stays for file pickers etc, wlr only handles screenshot/screencast.
+  xdg.portal = {
+    enable = true;
+    wlr = {
+      enable = true;
+      # default chooser_type shells out to slurp/wofi/etc to pick an output
+      # interactively; with a single laptop screen there's nothing to pick,
+      # so skip the chooser entirely and grab the only output there is.
+      settings.screencast.chooser_type = "none";
+    };
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   # lid close -> actually suspend (screen off, real sleep).
   # locking itself is handled by swayidle's before-sleep hook in home.nix,
   # since HandleLidSwitch=lock alone doesn't turn the screen off.
@@ -33,6 +48,7 @@
     HandleLidSwitch = "suspend";
     HandleLidSwitchExternalPower = "suspend";
     HandleLidSwitchDocked = "suspend";
+    HandlePowerKey = "suspend";
   };
 
   # Configure keymap (driftwm sets its own via config.toml)

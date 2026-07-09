@@ -53,6 +53,7 @@
     helium
     tea
     bazelisk
+    obs-studio
 
     # driftwm deps
     swaylock

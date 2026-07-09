@@ -27,7 +27,11 @@ let
 
   importSessionEnv = pkgs.writeShellScript "import-session-env" ''
     systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP DISPLAY
-    systemctl --user start graphical-session.target
+    # graphical-session.target is already active by the time we get here (pam/systemd
+    # starts it at session creation, before WAYLAND_DISPLAY exists), so a plain `start`
+    # is a no-op. `restart` forces PartOf= units (swayidle, swaync, ...) to re-run their
+    # ConditionEnvironment=WAYLAND_DISPLAY check now that it's actually set.
+    systemctl --user restart graphical-session.target
   '';
 in
 {
