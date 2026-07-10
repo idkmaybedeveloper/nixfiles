@@ -36,6 +36,7 @@ in
         open-vsx.erlang-ls.erlang-ls
         open-vsx.astro-build.astro-vscode
         marketplace.leonardssh.vscord
+        open-vsx.kpumuk.thrift-weaver-vscode
       ];
       userSettings = {
         "update.mode" = "none";

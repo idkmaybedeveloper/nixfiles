@@ -2,8 +2,8 @@
 
 let
   wallpaper = pkgs.fetchurl {
-    url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
-    hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
+    url = "https://cloud.wejust.rest/f57ca5e1878ee573d0433cb5902d2cd1286af0728a8be50fd9be0e07877b704b/Foxconn_Data_Center,_Mount_Pleasant_(53444925939).jpg";
+    hash = "sha256-9Xyl4YeO5XPQQzy1kC0s0Shq8HKKi+UP2b4OB4d7cEs=";
   };
 in
 {
