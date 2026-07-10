@@ -59,7 +59,7 @@
       };
       actions = {
         ENABLED = true; # SOMTHING HAPPENS
-        DEFAULT_ACTIONS_URL = "https://nx.cuddles.rs";
+        #DEFAULT_ACTIONS_URL = "https://nx.cuddles.rs";
       };
       other = {
         SHOW_FOOTER_VERSION = false;
