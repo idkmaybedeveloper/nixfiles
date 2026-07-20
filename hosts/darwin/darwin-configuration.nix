@@ -10,6 +10,8 @@
   homebrew-fuse-t,
   homebrew-lain,
   homebrew-FelixKratz,
+  homebrew-sikarugir,
+  homebrew-wine,
   ...
 }:
 
@@ -33,6 +35,8 @@
       "blacktop/homebrew-tap" = homebrew-blacktop;
       "lain/homebrew-tap" = homebrew-lain;
       "FelixKratz/homebrew-formulae" = homebrew-FelixKratz;
+      "sikarugir-app/homebrew-sikarugir" = homebrew-sikarugir;
+      "gcenx/homebrew-wine" = homebrew-wine;
     };
 
     mutableTaps = false;
@@ -45,5 +49,11 @@
     "microsoft/git"
     "blacktop/homebrew-tap"
     "lain/homebrew-tap"
+    "sikarugir-app/sikarugir"
+    "gcenx/wine"
+  ];
+
+  homebrew.casks = [
+    "sikarugir"
   ];
 }

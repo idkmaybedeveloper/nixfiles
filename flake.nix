@@ -100,6 +100,14 @@
       url = "git+https://github.com/FelixKratz/homebrew-formulae";
       flake = false;
     };
+    homebrew-sikarugir = {
+      url = "github:Sikarugir-App/homebrew-sikarugir";
+      flake = false;
+    };
+    homebrew-wine = {
+      url = "github:gcenx/homebrew-wine";
+      flake = false;
+    };
     nixvim = {
       url = "github:nix-community/nixvim/nixos-25.11";
       inputs.nixpkgs.follows = "nixpkgs-2605";
@@ -166,6 +174,8 @@
       homebrew-fuse-t,
       homebrew-lain,
       homebrew-FelixKratz,
+      homebrew-sikarugir,
+      homebrew-wine,
       nixvim,
       nix-vscode-extensions,
       helium,
@@ -249,6 +259,8 @@
               homebrew-fuse-t
               homebrew-lain
               homebrew-FelixKratz
+              homebrew-sikarugir
+              homebrew-wine
               ;
           };
 

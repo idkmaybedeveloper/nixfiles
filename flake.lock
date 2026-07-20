@@ -718,6 +718,38 @@
         "type": "github"
       }
     },
+    "homebrew-sikarugir": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1781129674,
+        "narHash": "sha256-2MnGlm1ug4sTdIBhnASYdYwwdTMwNmoWrtp+DPEskzc=",
+        "owner": "Sikarugir-App",
+        "repo": "homebrew-sikarugir",
+        "rev": "3de9f256205b7961ec45dcfed740f280beb5d0b8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Sikarugir-App",
+        "repo": "homebrew-sikarugir",
+        "type": "github"
+      }
+    },
+    "homebrew-wine": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780975686,
+        "narHash": "sha256-1bLevYt1DIigM2LZPe6L7CDfFXQV5NYSn28x97j11CA=",
+        "owner": "gcenx",
+        "repo": "homebrew-wine",
+        "rev": "8fa0df79e4a1b7d4ab292958352feaceb4905bfb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gcenx",
+        "repo": "homebrew-wine",
+        "type": "github"
+      }
+    },
     "htmx-src": {
       "flake": false,
       "locked": {
@@ -1405,6 +1437,8 @@
         "homebrew-lain": "homebrew-lain",
         "homebrew-microsoft": "homebrew-microsoft",
         "homebrew-php": "homebrew-php",
+        "homebrew-sikarugir": "homebrew-sikarugir",
+        "homebrew-wine": "homebrew-wine",
         "late-sh": "late-sh",
         "mailserver": "mailserver",
         "nix-homebrew": "nix-homebrew",
