@@ -37,6 +37,7 @@ in
         open-vsx.astro-build.astro-vscode
         marketplace.leonardssh.vscord
         open-vsx.kpumuk.thrift-weaver-vscode
+        marketplace.ggml-org.llama-vscode
       ];
       userSettings = {
         "update.mode" = "none";

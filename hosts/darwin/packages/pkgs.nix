@@ -39,7 +39,7 @@ let
     cp ${
       pkgs.fetchurl {
         url = "https://storage.googleapis.com/git-repo-downloads/repo";
-        sha256 = "Ebxok+ngwJQPwcyVt1xkX5op/Kh52JzqqJik12Girdc=";
+        sha256 = "EhG1e1fkEiqcVGKVpZs30kBo8RZNDoe+8JbVMjxBPk8=";
       }
     } $out/bin/repo
     chmod +x $out/bin/repo
