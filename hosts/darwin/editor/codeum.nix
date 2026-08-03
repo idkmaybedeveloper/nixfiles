@@ -55,6 +55,11 @@ in
         ];
         "workbench.activityBar.location" = "top";
         "redhat.telemetry.enabled" = false;
+        # NOTE: vscode-bazel looks up a binary literally named `bazel` in PATH,
+        # and we only ship bazelisk, so point it there explicitly.
+        "bazel.executable" = "${pkgs.bazelisk}/bin/bazelisk";
+        "bazel.buildifierExecutable" = "${pkgs.bazel-buildtools}/bin/buildifier";
+        "bazel.buildifierFixOnFormat" = true;
         "workbench.colorCustomizations" = {
           "[Catppuccin Mocha]" = {
             "editor.lineHighlightBackground" = "#45475a50";
