@@ -55,8 +55,8 @@ in
         ];
         "workbench.activityBar.location" = "top";
         "redhat.telemetry.enabled" = false;
-        # NOTE: vscode-bazel looks up a binary literally named `bazel` in PATH,
-        # and we only ship bazelisk, so point it there explicitly.
+        # NOTE: vscode-bazel searches for a `bazel` in PATH,
+        # but we have only bazelisk SOOOOO just point it there
         "bazel.executable" = "${pkgs.bazelisk}/bin/bazelisk";
         "bazel.buildifierExecutable" = "${pkgs.bazel-buildtools}/bin/buildifier";
         "bazel.buildifierFixOnFormat" = true;
