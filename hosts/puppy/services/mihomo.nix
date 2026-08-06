@@ -87,6 +87,10 @@ in
   };
 
   systemd.services.mihomo = {
+    # mihomo only reads files below its home dir unless told otherwise, and the
+    # cert arrives through LoadCredential=
+    environment.SAFE_PATHS = creds;
+
     serviceConfig = {
       LoadCredential = lib.mkForce [
         "config.yaml:${config.sops.templates."mihomo.yaml".path}"
