@@ -400,6 +400,7 @@
           modules = [
             ./hosts/puppy/configuration.nix
             disko.nixosModules.disko
+            sops-nix.nixosModules.sops
           ];
         };
 

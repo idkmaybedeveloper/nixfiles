@@ -3,7 +3,14 @@ keys:
   - &playground2 age15av3s35wcha3egwhlvpjjhgnwmqdn75eazd2javacqfqpfuwqsssk8kcnk
   - &x230 age180vw9fnqw6rmdwju4umv008j4pkp0jxf0wukyxmjzzmcmzgj2scsnfs66s
   - &alphys age1z5eywlq5s6y4zvspujeknx8q908j4vx6epjs482rtrzmclj3f3hsjgnpn0
+  - &puppy age1sp70cvnyu0wt58h8wdfdatg2x0tw5rgvsnjztvseju0664ld3apq6m893a
 creation_rules:
+  - path_regex: secrets/puppy\.yaml$
+    encrypted_regex: ^.*$
+    key_groups:
+      - age:
+          - *mac
+          - *puppy
   - path_regex: secrets/playground2\.yaml$
     encrypted_regex: ^.*$
     key_groups:
