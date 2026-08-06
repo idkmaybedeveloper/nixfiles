@@ -74,7 +74,6 @@ in
   sops.secrets.mihomo_hysteria_password = { };
   sops.secrets.reality_server_name = { };
 
-  # yaml is a superset of json so mihomo eats this just fine
   sops.templates."mihomo.yaml".content = builtins.toJSON settings;
 
   services.mihomo = {

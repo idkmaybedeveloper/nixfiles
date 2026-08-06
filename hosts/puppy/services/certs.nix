@@ -30,6 +30,10 @@ in
       StateDirectory = "lego wildcard-cert";
       StateDirectoryMode = "0750";
       UMask = "0027";
+
+      # systemd chowns StateDirectory to User:Group on every start, so this is
+      # the only way the group survives - a chgrp in the script gets undone
+      Group = "nginx";
     };
 
     script = ''
@@ -92,6 +96,7 @@ in
       StateDirectory = "wildcard-cert";
       StateDirectoryMode = "0750";
       UMask = "0027";
+      Group = "nginx";
     };
 
     script = ''
@@ -101,7 +106,6 @@ in
       ${pkgs.openssl}/bin/openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
         -subj "/CN=localhost" -keyout ${key} -out ${fullchain}
 
-      chgrp nginx ${fullchain} ${key}
       chmod 0640 ${fullchain} ${key}
     '';
   };
