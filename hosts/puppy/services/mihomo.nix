@@ -58,6 +58,8 @@ let
 
     proxies = [ ];
     rules = [
+      "AND,((IP-CIDR,127.0.0.1/32),(DST-PORT,443)),DIRECT"
+      "AND,((IP-CIDR,127.0.0.1/32),(DST-PORT,80)),DIRECT"
       "IP-CIDR,127.0.0.0/8,REJECT,no-resolve"
       "IP-CIDR,10.0.0.0/8,REJECT,no-resolve"
       "IP-CIDR,172.16.0.0/12,REJECT,no-resolve"
