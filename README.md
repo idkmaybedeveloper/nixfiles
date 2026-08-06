@@ -14,6 +14,7 @@ its own nixpkgs) but welp, it works :3
 | `nixvm` | linux vm | 25.11 |
 | `playground1` | hostkey vds, runs a pile of services | 25.11 |
 | `playground2` | hostkey vds, minecraft mostly | 25.11 |
+| `puppy` | vds, runs some proxys yk | 25.11 |
 | `eva01` | thinkpad x230, secondary laptop | unstable |
 | `alphys` | surface laptop 3 (linux-surface kernel, disko) | unstable |
 | `default` (nix-on-droid) | phone (pixel 3a) | 24.05 |
