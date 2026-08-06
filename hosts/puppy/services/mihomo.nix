@@ -78,6 +78,9 @@ in
 
   sops.templates."mihomo.yaml".content = builtins.toJSON settings;
 
+  # otherwise a config change just sits there until the next reboot
+  sops.templates."mihomo.yaml".restartUnits = [ "mihomo.service" ];
+
   services.mihomo = {
     enable = true;
     configFile = config.sops.templates."mihomo.yaml".path;
