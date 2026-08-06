@@ -2,18 +2,20 @@
   config,
   lib,
   pkgs,
+  abs,
   wildcardCert,
   ...
 }:
 
 let
+  endpoints = import (abs "lib/mihomo-endpoints.nix");
+
   # systemd drops LoadCredential= here, which is the only way a DynamicUser
   # service with ProtectSystem=strict gets to read the cert dir
   creds = "/run/credentials/mihomo.service";
 
   # 80/443 belong to angie and stay a plain boring website...
-  vlessPort = 46207;
-  hysteriaPort = 16022;
+  inherit (endpoints) vlessPort hysteriaPort;
 
   settings = {
     log-level = "info";
