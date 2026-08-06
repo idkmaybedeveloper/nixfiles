@@ -55,6 +55,12 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # remote installer (puppy), pinned so every box gets the same one
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.disko.follows = "disko";
+    };
     # helium browser for linux (alphys). the other `helium` input is the mac build
     helium-linux = {
       url = "github:schembriaiden/helium-browser-nix-flake";
@@ -163,6 +169,7 @@
       attic,
       nixos-hardware,
       disko,
+      nixos-anywhere,
       helium-linux,
       driftwm,
       nix-homebrew,
@@ -241,6 +248,12 @@
     in
     {
       formatter.${darwinSystem} = darwinPkgs.nixfmt-tree;
+
+      # nix run .#nixos-anywhere -- --flake .#puppy root@puppyip
+      apps.${darwinSystem}.nixos-anywhere = {
+        type = "app";
+        program = "${nixos-anywhere.packages.${darwinSystem}.default}/bin/nixos-anywhere";
+      };
 
       darwinConfigurations = {
         # m68k (macOS)

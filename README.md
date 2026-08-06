@@ -56,6 +56,12 @@ nix-on-droid switch --flake .#default
 nix flake check --all-systems
 ```
 
+for puppy pls see its [readme](hosts/puppy/README.md):
+
+```bash
+nix run .#nixos-anywhere -- --flake .#puppy --build-on remote root@<ip>
+```
+
 ## cat in a readme :cat:
 
 ![cat](https://cats.cuddles.rs/meow)
