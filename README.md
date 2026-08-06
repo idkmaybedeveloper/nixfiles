@@ -39,6 +39,9 @@ note to self on what has to exist on the host manually:
 
 - `/home/lain/.ssh/agenix_key` - private age key for sops decryption
   (needed on `playground2`, `eva01` and `alphys`)
+- `~/.ssh/puppy_host_ed25519_key` (on m68k) - `puppy`s ssh host key, generated
+  here and pushed to the box at install time. its what decrypts
+  `secrets/puppy.yaml`, so losing it means reinstalling puppy
 
 ## setting up
 

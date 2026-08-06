@@ -8,11 +8,23 @@ know lol ¯\_(ツ)_/¯
 ## first install (nixos-anywhere)
 
 boot the box into anything with ssh as root (rescue mode, a debian image,
-whatever) and from m68k:
+whatever), stage the host key, and from m68k:
 
 ```sh
-nix run .#nixos-anywhere -- --flake .#puppy --build-on remote root@<ip>
+install -d -m 755 /tmp/puppy-extra/etc/ssh
+install -m 600 ~/.ssh/puppy_host_ed25519_key /tmp/puppy-extra/etc/ssh/ssh_host_ed25519_key
+install -m 644 ~/.ssh/puppy_host_ed25519_key.pub /tmp/puppy-extra/etc/ssh/ssh_host_ed25519_key.pub
+
+nix run .#nixos-anywhere -- \
+  --flake .#puppy \
+  --build-on remote \
+  --extra-files /tmp/puppy-extra \
+  root@<ip>
 ```
+
+forget `--extra-files` and the box comes up with a freshly generated host key,
+sops cant decrypt, and lain ends up with no password again (and no sudo, and no
+way in except the vnc console)
 
 `--build-on remote` because m68k is aarch64-darwin and cant build an
 x86_64-linux closure by itself. 2g of ram is tight for that, so if the build
