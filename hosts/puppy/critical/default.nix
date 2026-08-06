@@ -5,7 +5,7 @@
     ./networking.nix
     ./users.nix
     partials.firewall-ssh
-    partials.boot-efi
+    partials.boot-grub-sda
     partials.chrony
   ];
 }
