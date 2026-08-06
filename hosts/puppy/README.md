@@ -1,5 +1,10 @@
 # `nixfiles/puppy`
 
+the vds is **legacy bios** (seabios + ipxe, no `/sys/firmware/efi`), so its grub
+on a 1M bios_grub partition and no ESP at all. systemd-boot installs "fine" there
+and then the box just sits at `Booting from Hard Disk...` forever, ask me how i
+know lol ¯\_(ツ)_/¯
+
 ## first install (nixos-anywhere)
 
 boot the box into anything with ssh as root (rescue mode, a debian image,
