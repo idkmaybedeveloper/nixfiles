@@ -6,6 +6,9 @@ in
 {
   # networkmanager + firewall(ssh) come from the shared modules
   networking.hostName = "puppy";
+
+  # not partials.firewall-ssh: that one pins 22 open, and ssh lives elsewhere now
+  networking.firewall.enable = true;
   networking.firewall.allowPing = false;
 
   sops.secrets.puppy_extra_ip = { };
