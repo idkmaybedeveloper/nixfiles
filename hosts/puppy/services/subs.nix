@@ -41,6 +41,26 @@ in
     restartUnits = [ "sub-render.service" ];
   };
 
+   # lol none of these headers are specified anywhere: its convention grown out of
+   # shadowrocket and clash, and remnawave still carries a "remove after XTLS
+   # Standards published" todo over its expire field.
+   # #justfuckstupidvpnclients
+  services.nginx.virtualHosts."_".locations."/" = {
+    root = subsDir;
+    tryFiles = "$uri @woof";
+
+    extraConfig = ''
+      default_type text/plain;
+      add_header Content-Disposition 'attachment; filename=puppy';
+      add_header Subscription-Userinfo 'upload=0; download=0; total=0; expire=0';
+      add_header Profile-Title 'base64:Y3VkZGxlcy5ycyB2cG4gaW5mcmE='; # "cuddles.rs vpn infra" 
+      add_header Profile-Update-Interval '24';
+      add_header Support-Url 'https://iamtsunde.re';
+      add_header Profile-Web-Page-Url 'https://iamtsunde.re';
+      add_header X-Hwid-Not-Supported 'true';
+    '';
+  };
+
   systemd.services.sub-render = {
     description = "publish the subscriptions under the secret path";
     wantedBy = [ "multi-user.target" ];
@@ -78,6 +98,4 @@ in
       find ${subsDir} -mindepth 1 -maxdepth 1 ! -name "$id" -exec rm -rf {} +
     '';
   };
-
-  _module.args.subsDir = subsDir;
 }
