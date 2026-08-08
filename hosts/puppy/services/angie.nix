@@ -1,17 +1,10 @@
 {
-  config,
   pkgs,
   wildcardCert,
+  subsDir,
   ...
 }:
 
-let
-  #a glob, not a plain include: the file only exists once sops has rendered it,
-  #and nginx -t at build time would choke on a missing literal path
-  subLocations = "${
-    builtins.dirOf config.sops.templates."sub-locations.conf".path
-  }/sub-locations*.conf";
-in
 {
   services.nginx = {
     enable = true;
@@ -31,11 +24,18 @@ in
       sslCertificate = wildcardCert.fullchain;
       sslCertificateKey = wildcardCert.key;
 
-      extraConfig = ''
-        include ${subLocations};
-      '';
-
+      #the subscriptions are plain files under a directory named after the
+      #secret, so nothing in here knows the id and nothing has to be rendered
+      #at parse time - anything that isnt a real file falls through to the woof
       locations."/" = {
+        root = subsDir;
+        tryFiles = "$uri @woof";
+        extraConfig = ''
+          default_type text/plain;
+        '';
+      };
+
+      locations."@woof" = {
         return = "200 'woof woof :3\\n'";
         extraConfig = ''
           default_type text/plain;

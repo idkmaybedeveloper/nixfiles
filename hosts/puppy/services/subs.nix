@@ -11,7 +11,7 @@ let
 
   clientSettings = import (abs "lib/mihomo-client.nix") { inherit ph endpoints; };
 
-  subDir = "/var/lib/subs";
+  subsDir = "/var/lib/subs";
 
   inherit (endpoints) vlessPort hysteriaPort;
 
@@ -28,13 +28,9 @@ let
     + "#puppy-hy2";
 in
 {
-  sops.secrets.sub_id = { };
+  sops.secrets.sub_id.restartUnits = [ "sub-render.service" ];
   sops.secrets.mihomo_reality_public_key = { };
 
-  #the base64 cant happen at eval time: every field in those uris is a sops
-  #placeholder that only turns real when the template gets rendered on the box,
-  #so sops writes the plaintext list and sub-render encodes it afterwards.
-  #mihomo eats yaml straight, so its template is served as-is
   sops.templates."sub-uris" = {
     content = "${vlessUri}\n${hy2Uri}\n";
     restartUnits = [ "sub-render.service" ];
@@ -42,33 +38,17 @@ in
 
   sops.templates."sub-mihomo.yaml" = {
     content = builtins.toJSON clientSettings;
-    owner = "nginx";
-    mode = "0440";
-  };
-
-  #the secret path segment lives in a rendered snippet so it never reaches the
-  #nix store - angie just globs the directory for it
-  sops.templates."sub-locations.conf" = {
-    content = ''
-      location = /${ph.sub_id}/xray {
-        default_type text/plain;
-        alias ${subDir}/xray;
-      }
-
-      location = /${ph.sub_id}/mihomo {
-        default_type text/yaml;
-        alias ${config.sops.templates."sub-mihomo.yaml".path};
-      }
-    '';
-    owner = "nginx";
-    mode = "0440";
-    restartUnits = [ "nginx.service" ];
+    restartUnits = [ "sub-render.service" ];
   };
 
   systemd.services.sub-render = {
-    description = "encode the xray sharelink subscription";
+    description = "publish the subscriptions under the secret path";
     wantedBy = [ "multi-user.target" ];
-    before = [ "nginx.service" ];
+
+    path = [
+      pkgs.coreutils
+      pkgs.findutils
+    ];
 
     serviceConfig = {
       Type = "oneshot";
@@ -80,8 +60,24 @@ in
 
     script = ''
       set -euo pipefail
-      ${pkgs.coreutils}/bin/base64 -w0 \
-        ${config.sops.templates."sub-uris".path} > ${subDir}/xray
+
+      id=$(cat ${config.sops.secrets.sub_id.path})
+      install -d -m 0755 ${subsDir}/"$id"
+
+      #the base64 cant happen at eval time: every field in those uris is a sops
+      #placeholder that only turns real once the template is rendered on the box
+      base64 -w0 ${config.sops.templates."sub-uris".path} > ${subsDir}/"$id"/xray
+      chmod 0444 ${subsDir}/"$id"/xray
+
+      install -m 0444 ${config.sops.templates."sub-mihomo.yaml".path} \
+        ${subsDir}/"$id"/mihomo
+
+      #subsDir is a document root now, so anything sitting in it is reachable.
+      #a rotated sub_id would leave the old path live forever, and the old
+      #layout left a bare xray file right at the root - both go away here
+      find ${subsDir} -mindepth 1 -maxdepth 1 ! -name "$id" -exec rm -rf {} +
     '';
   };
+
+  _module.args.subsDir = subsDir;
 }
