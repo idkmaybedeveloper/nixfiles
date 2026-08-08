@@ -8,7 +8,9 @@
 let
   #a glob, not a plain include: the file only exists once sops has rendered it,
   #and nginx -t at build time would choke on a missing literal path
-  subLocations = "${builtins.dirOf config.sops.templates."sub-locations.conf".path}/sub-locations*.conf";
+  subLocations = "${
+    builtins.dirOf config.sops.templates."sub-locations.conf".path
+  }/sub-locations*.conf";
 in
 {
   services.nginx = {

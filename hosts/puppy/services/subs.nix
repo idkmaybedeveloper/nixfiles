@@ -30,6 +30,11 @@ in
 {
   sops.secrets.sub_id = { };
   sops.secrets.mihomo_reality_public_key = { };
+
+  #the base64 cant happen at eval time: every field in those uris is a sops
+  #placeholder that only turns real when the template gets rendered on the box,
+  #so sops writes the plaintext list and sub-render encodes it afterwards.
+  #mihomo eats yaml straight, so its template is served as-is
   sops.templates."sub-uris" = {
     content = "${vlessUri}\n${hy2Uri}\n";
     restartUnits = [ "sub-render.service" ];

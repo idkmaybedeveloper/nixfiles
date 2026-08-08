@@ -66,16 +66,16 @@
     "IP-CIDR,169.254.0.0/16,DIRECT,no-resolve"
     #tailscale, otherwise the whole tailnet would tunnel through puppy which is really bad
     "IP-CIDR,100.64.0.0/10,DIRECT,no-resolve"
-    "DOMAIN-SUFFIX,xn--p1ai,DIRECT" #рф
+    "DOMAIN-SUFFIX,xn--p1ai,DIRECT" # рф
     "DOMAIN-SUFFIX,ru,DIRECT"
     "DOMAIN-SUFFIX,su,DIRECT"
-    "DOMAIN-SUFFIX,xn--p1acf,DIRECT" #рус
-    "DOMAIN-SUFFIX,xn--80asehdb,DIRECT" #онлайн
-    "DOMAIN-SUFFIX,xn--c1avg,DIRECT" #орг
-    "DOMAIN-SUFFIX,xn--80aswg,DIRECT" #сайт
-    "DOMAIN-SUFFIX,xn--80adxhks,DIRECT" #москва
+    "DOMAIN-SUFFIX,xn--p1acf,DIRECT" # рус
+    "DOMAIN-SUFFIX,xn--80asehdb,DIRECT" # онлайн
+    "DOMAIN-SUFFIX,xn--c1avg,DIRECT" # орг
+    "DOMAIN-SUFFIX,xn--80aswg,DIRECT" # сайт
+    "DOMAIN-SUFFIX,xn--80adxhks,DIRECT" # москва
     "DOMAIN-SUFFIX,moscow,DIRECT"
-    "DOMAIN-SUFFIX,xn--d1acj3b,DIRECT" #дети (oh fucking no...)
+    "DOMAIN-SUFFIX,xn--d1acj3b,DIRECT" # дети (oh fucking no...)
     "GEOSITE,category-gov-ru,DIRECT"
     "GEOSITE,yandex,DIRECT"
     "GEOSITE,vk,DIRECT"
