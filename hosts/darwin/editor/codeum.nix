@@ -55,6 +55,12 @@ in
         ];
         "workbench.activityBar.location" = "top";
         "redhat.telemetry.enabled" = false;
+        "editor.fontFamily" = "Iosevka, monospace";
+        "editor.fontLigatures" = true;
+        "terminal.integrated.fontFamily" = "Iosevka, monospace";
+        "debug.console.fontFamily" = "Iosevka, monospace";
+        "chat.editor.fontFamily" = "Iosevka, monospace";
+        "scm.inputFontFamily" = "Iosevka, monospace";
         # NOTE: vscode-bazel searches for a `bazel` in PATH,
         # but we have only bazelisk SOOOOO just point it there
         "bazel.executable" = "${pkgs.bazelisk}/bin/bazelisk";

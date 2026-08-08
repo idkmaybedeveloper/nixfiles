@@ -15,6 +15,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
+    iosevka-bin
     noto-fonts
     noto-fonts-color-emoji
   ];

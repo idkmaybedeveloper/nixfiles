@@ -53,6 +53,12 @@ in
         ];
         "workbench.activityBar.location" = "top";
         "redhat.telemetry.enabled" = false;
+        "editor.fontFamily" = "Iosevka, monospace";
+        "editor.fontLigatures" = true;
+        "terminal.integrated.fontFamily" = "Iosevka, monospace";
+        "debug.console.fontFamily" = "Iosevka, monospace";
+        "chat.editor.fontFamily" = "Iosevka, monospace";
+        "scm.inputFontFamily" = "Iosevka, monospace";
         "workbench.colorCustomizations" = {
           "[Catppuccin Mocha]" = {
             "editor.lineHighlightBackground" = "#45475a50";
