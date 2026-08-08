@@ -1,5 +1,15 @@
-{ pkgs, wildcardCert, ... }:
+{
+  config,
+  pkgs,
+  wildcardCert,
+  ...
+}:
 
+let
+  #a glob, not a plain include: the file only exists once sops has rendered it,
+  #and nginx -t at build time would choke on a missing literal path
+  subLocations = "${builtins.dirOf config.sops.templates."sub-locations.conf".path}/sub-locations*.conf";
+in
 {
   services.nginx = {
     enable = true;
@@ -18,6 +28,10 @@
 
       sslCertificate = wildcardCert.fullchain;
       sslCertificateKey = wildcardCert.key;
+
+      extraConfig = ''
+        include ${subLocations};
+      '';
 
       locations."/" = {
         return = "200 'woof woof :3\\n'";
