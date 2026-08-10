@@ -38,6 +38,7 @@ in
         marketplace.leonardssh.vscord
         open-vsx.kpumuk.thrift-weaver-vscode
         marketplace.ggml-org.llama-vscode
+        marketplace.jetbrains.kotlin-server
       ];
       userSettings = {
         "update.mode" = "none";
