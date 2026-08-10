@@ -68,6 +68,9 @@
         sub_filter_once off;
       '';
     };
+    locations."= /connectivitycheck" = {
+      return = "204";
+    };
     locations."/ext" = {
       proxyPass = "http://helium-exts/";
       proxyWebsockets = true;
@@ -76,6 +79,27 @@
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+      '';
+    };
+    locations."/com" = {
+      proxyPass = "http://helium-exts/com";
+      extraConfig = ''
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+      '';
+    };
+    locations."/push/" = {
+      proxyPass = "http://127.0.0.1:10001/";
+      proxyWebsockets = true;
+      extraConfig = ''
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 1h;
+        proxy_send_timeout 1h;
       '';
     };
     locations."/ubo/" = {

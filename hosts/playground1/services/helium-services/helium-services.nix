@@ -11,8 +11,8 @@ let
     src = pkgs.fetchFromGitHub {
       owner = "imputnet";
       repo = "helium-services";
-      rev = "6839e30dc01fe144bfef2730c165ab3e0265d68b";
-      sha256 = "sha256-i785PDqPQee0El9h6zLX8cP+w4Hh/JVBRiiT3byiZ6k=";
+      rev = "d40a6b252605a1c8868fd6d30b2dda9e4c6cc4f5";
+      sha256 = "sha256-MR10Yvgx6gWbpOYbhOwuOHMISWR41faVfzuE0XNlJBU=";
     };
 
     nativeBuildInputs = with pkgs; [ deno ];
@@ -21,21 +21,21 @@ let
       mkdir -p $out/bin
       mkdir -p $out/lib/helium-services
 
-      cd svc/nginx
-      sed 's|/dev/shm/bangs|/dev/shm/bangs|g' refresh-bangs.sh > $out/bin/helium-refresh-bangs
-      sed 's|/dev/shm/dictionaries|/dev/shm/dictionaries|g' refresh-dicts.sh > $out/bin/helium-refresh-dicts
-      cp refresh-cert.sh $out/bin/helium-refresh-cert
+      cp svc/nginx/refresh-bangs.sh $out/bin/helium-refresh-bangs
+      cp svc/nginx/refresh-dicts.sh $out/bin/helium-refresh-dicts
+      cp svc/nginx/refresh-cert.sh $out/bin/helium-refresh-cert
 
       chmod +x $out/bin/helium-refresh-bangs
       chmod +x $out/bin/helium-refresh-dicts
       chmod +x $out/bin/helium-refresh-cert
 
-      cd ../..
       cp -r svc/ubo $out/lib/helium-services/ubo
       cp -r svc/extension-proxy $out/lib/helium-services/extension-proxy
+      cp -r svc/minipush $out/lib/helium-services/minipush
 
       rm -f $out/lib/helium-services/ubo/deno.lock
       rm -f $out/lib/helium-services/extension-proxy/deno.lock
+      rm -f $out/lib/helium-services/minipush/deno.lock
     '';
 
     installPhase = ''
@@ -136,6 +136,35 @@ in
     };
   };
 
+  systemd.services.helium-minipush = {
+    description = "Helium minipush (web push server)";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      RestartSec = 3;
+      WorkingDirectory = "${heliumPkg}/lib/helium-services/minipush";
+      StandardOutput = "journal";
+      StandardError = "journal";
+      Environment = [
+        "DENO_DIR=/var/lib/helium-minipush/.deno"
+        "MINIPUSH_BIND_HOSTNAME=127.0.0.1"
+        "MINIPUSH_PORT=10001"
+      ];
+      StateDirectory = "helium-minipush";
+      ExecStart = ''
+        ${loadEnv} ${pkgs.deno}/bin/deno run \
+          --allow-env=MINIPUSH_BIND_HOSTNAME,MINIPUSH_PORT,MINIPUSH_BASE_URL,MINIPUSH_HMAC_SECRET,MINIPUSH_ENDPOINT_SECRET,MINIPUSH_MAX_TTL_SECONDS,MINIPUSH_MAX_QUEUED_PER_CHANNEL,MINIPUSH_RATE_LIMIT_WINDOW,MINIPUSH_RATE_LIMIT,MINIPUSH_REQUIRE_VAPID \
+          --allow-net \
+          --no-lock \
+          main.ts
+      '';
+    };
+  };
+
   systemd.services.helium-refresh-bangs = {
     description = "Helium Refresh Bangs";
     wantedBy = [ "multi-user.target" ];
@@ -166,15 +195,23 @@ in
     path = with pkgs; [
       curl
       gzip
-      diffutils
       gnutar
+      findutils
     ];
 
     serviceConfig = {
-      Type = "simple";
-      Restart = "always";
-      RestartSec = 10;
+      Type = "oneshot";
+      RemainAfterExit = true;
       ExecStart = "${heliumPkg}/bin/helium-refresh-dicts";
+    };
+  };
+
+  systemd.timers.helium-refresh-dicts = {
+    description = "Helium Refresh Dictionaries (daily)";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
     };
   };
 
