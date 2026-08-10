@@ -46,8 +46,8 @@
         add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
       '';
     };
-    locations."/updates/mac" = {
-      proxyPass = "https://updates.helium.computer/mac";
+    locations."/updates" = {
+      proxyPass = "https://updates.helium.computer/";
       proxyWebsockets = true;
       extraConfig = ''
         proxy_set_header Host updates.helium.computer;
