@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   abs,
   ...
@@ -12,6 +13,12 @@ let
   clientSettings = import (abs "lib/mihomo-client.nix") { inherit ph endpoints; };
 
   subsDir = "/var/lib/subs";
+
+  #write these as plain text, base64.nix encodes them the way clients expect
+  b64 = import (abs "lib/base64.nix") { inherit lib; };
+
+  profileTitle = "cuddles.rs vpn infra";
+  announce = "meow meow mrrp nya nya awaw nyahmm :3";
 
   inherit (endpoints) vlessPort hysteriaPort;
 
@@ -41,10 +48,10 @@ in
     restartUnits = [ "sub-render.service" ];
   };
 
-   # lol none of these headers are specified anywhere: its convention grown out of
-   # shadowrocket and clash, and remnawave still carries a "remove after XTLS
-   # Standards published" todo over its expire field.
-   # #justfuckstupidvpnclients
+  # lol none of these headers are specified anywhere: its convention grown out of
+  # shadowrocket and clash, and remnawave still carries a "remove after XTLS
+  # Standards published" todo over its expire field.
+  # #justfuckstupidvpnclients
   services.nginx.virtualHosts."_".locations."/" = {
     root = subsDir;
     tryFiles = "$uri @woof";
@@ -53,7 +60,8 @@ in
       default_type text/plain;
       add_header Content-Disposition 'attachment; filename=puppy';
       add_header Subscription-Userinfo 'upload=0; download=0; total=0; expire=0';
-      add_header Profile-Title 'base64:Y3VkZGxlcy5ycyB2cG4gaW5mcmE='; # "cuddles.rs vpn infra" 
+      add_header Profile-Title 'base64:${b64 profileTitle}';
+      add_header Announce 'base64:${b64 announce}'; 
       add_header Profile-Update-Interval '24';
       add_header Support-Url 'https://iamtsunde.re';
       add_header Profile-Web-Page-Url 'https://iamtsunde.re';

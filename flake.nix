@@ -10,7 +10,7 @@
       "https://cache.wejust.rest/labs"
       "http://shit.cuddles.rs/nixos" # TODO: move to https when fixed
       #"https://nix-community.cachix.org" OHNO timeout
-      "http://shit.cuddles.rs/mac"  # mac cache from my macboob (m68k)
+      "http://shit.cuddles.rs/mac" # mac cache from my macboob (m68k)
     ];
     extra-trusted-public-keys = [
       "labs:1+w3w/rjRYzPhQals2BIspD0DZSyNmCP+dD76gGQPGU="

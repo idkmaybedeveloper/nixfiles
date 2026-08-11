@@ -3,7 +3,7 @@
 {
   # universal nix gc/settings/autoUpgrade come from lib/partials/nix-common.nix
   system.autoUpgrade.channel = "https://nixos.org/channels/nixos-25.11";
-  
+
   nix.settings = {
     substituters = [
       "https://cache.nixos.org"

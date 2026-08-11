@@ -1,6 +1,5 @@
 { ... }:
 
-
 #wipe+partition with:
 #nix run github:nix-community/disko -- --mode disko ./hosts/puppy/disko.nix
 
