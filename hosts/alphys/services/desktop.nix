@@ -24,22 +24,33 @@
       );
     };
   };
-  programs.niri.enable = true;
+  # the session itself (sway.desktop for ly, polkit rules, xwayland) - the
+  # window manager config lives in home.nix
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
-  # niri talks to xdg-desktop-portal-gnome for ScreenCast (OBS's "Screen Capture
-  # (PipeWire)" source) and the gnome module pulls that in itself; gtk stays for
-  # the file picker / access / notification backends its portal config points at.
+  # sway has no portal of its own, so ScreenCast (OBS's "Screen Capture
+  # (PipeWire)" source) needs xdg-desktop-portal-wlr explicitly.
+  # gtk portal stays for file pickers etc, wlr only handles screenshot/screencast.
   xdg.portal = {
     enable = true;
+    wlr = {
+      enable = true;
+      # default chooser_type shells out to slurp/wofi/etc to pick an output
+      # interactively; with a single laptop screen there's nothing to pick,
+      # so skip the chooser entirely and grab the only output there is.
+      settings.screencast.chooser_type = "none";
+    };
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
-  # the niri module leaves xwayland off, X11 clients go through
-  # xwayland-satellite (see the xwayland-satellite block in home.nix)
-  programs.xwayland.enable = true;
-
   # lid close -> actually suspend (screen off, real sleep).
-  # locking itself is handled by swayidle's before-sleep hook in home.nix,
+  # NOTE(lain): logind alone wasn't firing this on the SL3, so sway also binds
+  # the lid switch itself (bindswitch in home.nix). both paths end in the same
+  # `systemctl suspend`, and asking a suspending system to suspend is a no-op.
+  # locking is handled by swayidle's before-sleep hook in home.nix,
   # since HandleLidSwitch=lock alone doesn't turn the screen off.
   services.logind.settings.Login = {
     HandleLidSwitch = "suspend";
@@ -48,7 +59,7 @@
     HandlePowerKey = "suspend";
   };
 
-  # Configure keymap (niri sets its own via config.kdl)
+  # Configure keymap (sway sets its own via the input blocks in home.nix)
   services.xserver.xkb = {
     layout = "us,ru";
     variant = "";

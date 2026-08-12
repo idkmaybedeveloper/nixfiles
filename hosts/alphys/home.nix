@@ -1,6 +1,29 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 let
   wallpaper = (import ../../lib/wallpapers { inherit pkgs; }).meowmeow;
+
+  # screenshots go to ~/Pictures/Screenshots and also to the clipboard via wl-copy
+  screenshotFull = pkgs.writeShellScript "screenshot-full" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    ${pkgs.grim}/bin/grim - \
+      | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" \
+      | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
+  screenshotRegion = pkgs.writeShellScript "screenshot-region" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp -d)" - \
+      | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" \
+      | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
+  screenshotWindow = pkgs.writeShellScript "screenshot-window" ''
+    mkdir -p "$HOME/Pictures/Screenshots"
+    geometry=$(${pkgs.sway}/bin/swaymsg -t get_tree \
+      | ${pkgs.jq}/bin/jq -r '.. | select(.focused? == true) | .rect
+          | "\(.x),\(.y) \(.width)x\(.height)"')
+    ${pkgs.grim}/bin/grim -g "$geometry" - \
+      | tee "$HOME/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png" \
+      | ${pkgs.wl-clipboard}/bin/wl-copy
+  '';
 
   # GIT_ASKPASS helper: prompts via gum (TUI) instead of the default
   # terminal echo prompt when git asks for an https username/password.
@@ -143,11 +166,9 @@ in
     enable = true;
     timeouts = [
       {
-        # niri implements neither wlr-output-power-management nor DPMS via wlopm,
-        # so blanking goes through its own IPC action instead
         timeout = 300;
-        command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
-        resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+        command = "${pkgs.sway}/bin/swaymsg 'output * power off'";
+        resumeCommand = "${pkgs.sway}/bin/swaymsg 'output * power on'";
       }
       {
         timeout = 600;
@@ -166,165 +187,100 @@ in
     ];
   };
 
-  # niri compositor config: https://github.com/niri-wm/niri/wiki/Configuration:-Introduction
-  xdg.configFile."niri/config.kdl".text = ''
-    input {
-        keyboard {
-            xkb {
-                layout "us,ru"
-                options "grp:win_space_toggle"
-            }
+  # sway: https://github.com/swaywm/sway/wiki. the nixos side (session, polkit,
+  # xwayland) lives in services/desktop.nix; this is just the wm config
+  wayland.windowManager.sway = {
+    enable = true;
+    # the wrapped sway comes from programs.sway on the system side, so home
+    # manager only writes the config - two swaypackages in PATH would fight
+    package = null;
+    checkConfig = false;
+
+    config = {
+      modifier = "Mod4";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
+      menu = "${pkgs.fuzzel}/bin/fuzzel";
+
+      # waybar runs as its own systemd unit, so no swaybar
+      bars = [ ];
+
+      input = {
+        "type:keyboard" = {
+          xkb_layout = "us,ru";
+          xkb_options = "grp:win_space_toggle";
+        };
+        "type:touchpad" = {
+          tap = "enabled";
+          natural_scroll = "enabled";
+          pointer_accel = "0.3";
+        };
+        "type:pointer" = {
+          pointer_accel = "0.6";
+        };
+      };
+
+      output."*".bg = "${wallpaper} fill";
+
+      gaps.inner = 8;
+
+      window = {
+        border = 2;
+        titlebar = false;
+      };
+      floating.titlebar = false;
+
+      colors.focused = {
+        border = "#89b4fa";
+        background = "#1e1e2e";
+        text = "#cdd6f4";
+        indicator = "#89b4fa";
+        childBorder = "#89b4fa";
+      };
+      colors.unfocused = {
+        border = "#313244";
+        background = "#1e1e2e";
+        text = "#cdd6f4";
+        indicator = "#313244";
+        childBorder = "#313244";
+      };
+
+      startup = [
+        { command = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"; }
+        # night mode always on
+        {
+          command = "${pkgs.wlsunset}/bin/wlsunset -t 2700 -T 2701 -S 06:00 -s 18:00";
         }
+      ];
 
-        touchpad {
-            tap
-            natural-scroll
-            accel-speed 0.3
-        }
+      keybindings = lib.mkOptionDefault {
+        "Mod4+n" = "exec ${pkgs.swaynotificationcenter}/bin/swaync-client -t";
+        "Mod4+Mod1+l" = "exec ${lockCmd}";
 
-        mouse {
-            accel-speed 0.6
-        }
-    }
+        "Print" = "exec ${screenshotFull}";
+        "Shift+Print" = "exec ${screenshotRegion}";
+        "Ctrl+Print" = "exec ${screenshotWindow}";
 
-    // NOTE(lain): the SL3 panel is 2256x1504 @ 13.5", so 1.0 is tiny and 2.0 is huge.
-    // drop da `/-` to turn the section on; niri does fractional scaling properly,
-    // so 1.5 is fine here
-    /-output "eDP-1" {
-        scale 1.5
-    }
+        "XF86AudioRaiseVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+        "XF86AudioLowerVolume" = "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+        "XF86AudioMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+        "XF86AudioMicMute" = "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 
-    layout {
-        gaps 8
-        center-focused-column "never"
+        "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set 5%+";
+        "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl --class=backlight set 5%-";
 
-        preset-column-widths {
-            proportion 0.33333
-            proportion 0.5
-            proportion 0.66667
-        }
-        default-column-width { proportion 0.5; }
+        "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+        "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+        "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+      };
 
-        focus-ring {
-            width 2
-            active-color "#89b4fa"
-            inactive-color "#313244"
-        }
-
-        border {
-            off
-        }
-    }
-
-    // niri ships no background of its own, only a flat color behind the wallpaper
-    spawn-at-startup "${pkgs.swaybg}/bin/swaybg" "-m" "fill" "-i" "${wallpaper}"
-    spawn-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
-    // night mode always on
-    spawn-at-startup "${pkgs.wlsunset}/bin/wlsunset" "-t" "2700" "-T" "2701" "-S" "06:00" "-s" "18:00"
-
-    // X11 apps: the nixos niri module leaves xwayland off, satellite covers it
-    xwayland-satellite {
-        path "${pkgs.xwayland-satellite}/bin/xwayland-satellite"
-    }
-
-    prefer-no-csd
-    screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
-
-    hotkey-overlay {
-        skip-at-startup
-    }
-
-    binds {
-        Mod+Shift+Slash { show-hotkey-overlay; }
-
-        Mod+Return { spawn "${pkgs.alacritty}/bin/alacritty"; }
-        Mod+D { spawn "${pkgs.fuzzel}/bin/fuzzel"; }
-        Mod+N { spawn "${pkgs.swaynotificationcenter}/bin/swaync-client" "-t"; }
-        Mod+Alt+L { spawn "${pkgs.swaylock}/bin/swaylock" "-f" "-c" "000000"; }
-
-        XF86AudioRaiseVolume allow-when-locked=true { spawn "${pkgs.wireplumber}/bin/wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
-        XF86AudioLowerVolume allow-when-locked=true { spawn "${pkgs.wireplumber}/bin/wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
-        XF86AudioMute allow-when-locked=true { spawn "${pkgs.wireplumber}/bin/wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
-        XF86AudioMicMute allow-when-locked=true { spawn "${pkgs.wireplumber}/bin/wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
-
-        XF86MonBrightnessUp allow-when-locked=true { spawn "${pkgs.brightnessctl}/bin/brightnessctl" "--class=backlight" "set" "5%+"; }
-        XF86MonBrightnessDown allow-when-locked=true { spawn "${pkgs.brightnessctl}/bin/brightnessctl" "--class=backlight" "set" "5%-"; }
-
-        XF86AudioPlay allow-when-locked=true { spawn "${pkgs.playerctl}/bin/playerctl" "play-pause"; }
-        XF86AudioNext allow-when-locked=true { spawn "${pkgs.playerctl}/bin/playerctl" "next"; }
-        XF86AudioPrev allow-when-locked=true { spawn "${pkgs.playerctl}/bin/playerctl" "previous"; }
-
-        Mod+Q { close-window; }
-
-        Mod+H { focus-column-left; }
-        Mod+J { focus-window-down; }
-        Mod+K { focus-window-up; }
-        Mod+L { focus-column-right; }
-        Mod+Left { focus-column-left; }
-        Mod+Down { focus-window-down; }
-        Mod+Up { focus-window-up; }
-        Mod+Right { focus-column-right; }
-
-        Mod+Ctrl+H { move-column-left; }
-        Mod+Ctrl+J { move-window-down; }
-        Mod+Ctrl+K { move-window-up; }
-        Mod+Ctrl+L { move-column-right; }
-        Mod+Ctrl+Left { move-column-left; }
-        Mod+Ctrl+Down { move-window-down; }
-        Mod+Ctrl+Up { move-window-up; }
-        Mod+Ctrl+Right { move-column-right; }
-
-        Mod+Home { focus-column-first; }
-        Mod+End { focus-column-last; }
-
-        Mod+Page_Down { focus-workspace-down; }
-        Mod+Page_Up { focus-workspace-up; }
-        Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
-        Mod+Ctrl+Page_Up { move-column-to-workspace-up; }
-
-        Mod+1 { focus-workspace 1; }
-        Mod+2 { focus-workspace 2; }
-        Mod+3 { focus-workspace 3; }
-        Mod+4 { focus-workspace 4; }
-        Mod+5 { focus-workspace 5; }
-        Mod+6 { focus-workspace 6; }
-        Mod+7 { focus-workspace 7; }
-        Mod+8 { focus-workspace 8; }
-        Mod+9 { focus-workspace 9; }
-
-        Mod+Ctrl+1 { move-column-to-workspace 1; }
-        Mod+Ctrl+2 { move-column-to-workspace 2; }
-        Mod+Ctrl+3 { move-column-to-workspace 3; }
-        Mod+Ctrl+4 { move-column-to-workspace 4; }
-        Mod+Ctrl+5 { move-column-to-workspace 5; }
-        Mod+Ctrl+6 { move-column-to-workspace 6; }
-        Mod+Ctrl+7 { move-column-to-workspace 7; }
-        Mod+Ctrl+8 { move-column-to-workspace 8; }
-        Mod+Ctrl+9 { move-column-to-workspace 9; }
-
-        Mod+Comma { consume-window-into-column; }
-        Mod+Period { expel-window-from-column; }
-
-        Mod+R { switch-preset-column-width; }
-        Mod+Shift+R { switch-preset-window-height; }
-        Mod+C { center-column; }
-        Mod+F { maximize-column; }
-        Mod+Shift+F { fullscreen-window; }
-        Mod+Minus { set-column-width "-10%"; }
-        Mod+Equal { set-column-width "+10%"; }
-        Mod+Shift+Minus { set-window-height "-10%"; }
-        Mod+Shift+Equal { set-window-height "+10%"; }
-
-        Mod+V { toggle-window-floating; }
-        Mod+Shift+V { switch-focus-between-floating-and-tiling; }
-        Mod+Tab repeat=false { toggle-overview; }
-
-        Print { screenshot; }
-        Ctrl+Print { screenshot-screen; }
-        Alt+Print { screenshot-window; }
-
-        Mod+Shift+P { power-off-monitors; }
-        Mod+Shift+E { quit; }
-    }
-  '';
+      # NOTE(lain): logind's HandleLidSwitch wasn't firing on this box, so sway
+      # suspends on the lid switch itself. --locked so it still works with
+      # swaylock up, --reload so a config reload doesn't leave it unbound.
+      bindswitches."lid:on" = {
+        action = "exec ${pkgs.systemd}/bin/systemctl suspend";
+        locked = true;
+        reload = true;
+      };
+    };
+  };
 }

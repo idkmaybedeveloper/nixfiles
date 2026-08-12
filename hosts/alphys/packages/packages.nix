@@ -56,13 +56,13 @@
     bazelisk
     obs-studio
 
-    # niri session deps
+    # sway session deps
     swaylock
     swayidle
     swaybg
-    xwayland-satellite
     grim
     slurp
+    jq
     wl-clipboard
     brightnessctl
     playerctl
