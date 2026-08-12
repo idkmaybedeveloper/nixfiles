@@ -23,7 +23,16 @@ let
   settings = import (abs "lib/mihomo-client.nix") {
     inherit ph endpoints;
     tun = true;
+    offlineGeodata = true;
   };
+
+  # mihomo reads these from its working dir (-d), which for this unit is the
+  # DynamicUser StateDirectory. installing them before ExecStart means the
+  # GEOSITE/GEOIP rules resolve without a single request to github.
+  installGeodata = pkgs.writeShellScript "mihomo-install-geodata" ''
+    install -m 0644 ${pkgs.v2ray-geoip}/share/geoip.dat "$STATE_DIRECTORY/geoip.dat"
+    install -m 0644 ${pkgs.v2ray-domain-list-community}/share/geosite.dat "$STATE_DIRECTORY/geosite.dat"
+  '';
 in
 {
   sops.secrets = builtins.listToAttrs (
@@ -47,6 +56,8 @@ in
     tunMode = true;
     configFile = config.sops.templates."mihomo-client.yaml".path;
   };
+
+  systemd.services.mihomo.serviceConfig.ExecStartPre = [ "${installGeodata}" ];
 
   # the tun interface carries already-decided traffic, and the default zone
   # would drop the replies coming back in on it

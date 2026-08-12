@@ -2,10 +2,14 @@
 #endpoint puppy serves - so a rule tweak lands in both at once
 #`ph` is config.sops.placeholder of whichever host is rendering this, so every
 #secret stays a placeholder until sops writes the file out on the box itself
+#`offlineGeodata` is for hosts that get their geoip.dat/geosite.dat handed to
+#them from the nix store: mihomo otherwise fetches them from github on the first
+#run, which behind the tspu just dies with EOF and takes the whole start with it
 {
   ph,
   endpoints,
   tun ? false,
+  offlineGeodata ? false,
 }:
 
 let
@@ -17,7 +21,7 @@ let
     ipv6 = false;
 
     geodata-mode = true;
-    geo-auto-update = true;
+    geo-auto-update = !offlineGeodata;
     geo-update-interval = 168;
 
     proxies = [
