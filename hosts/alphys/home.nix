@@ -31,7 +31,13 @@ let
     ${pkgs.gum}/bin/gum input --password --placeholder "$1" </dev/tty
   '';
 
-  lockCmd = "${pkgs.swaylock}/bin/swaylock -f -c 000000";
+  # meow
+  lockCmd = toString (
+    pkgs.writeShellScript "lock-session" ''
+      ${pkgs.procps}/bin/pgrep -x swaylock >/dev/null && exit 0
+      exec ${pkgs.swaylock}/bin/swaylock -f -c 000000
+    ''
+  );
 in
 {
   home.stateVersion = "25.11";

@@ -52,6 +52,12 @@ in
   # would drop the replies coming back in on it
   networking.firewall.trustedInterfaces = [ "mihomo0" ];
 
+  # sops decrypts with /home/lain/.ssh/agenix_key (partials.sops-base), but the
+  # secrets go in from an activation script in stage-2, before systemd mounts
+  # /home - so on a cold boot nothing gets rendered and mihomo's LoadCredential
+  # dies with "no such file"
+  fileSystems."/home".neededForBoot = true;
+
   # NOTE(lain): tailscale runs its own tun next to this one. 100.64/10 and
   # *.ts.net are DIRECT in the ruleset and excluded from fake-ip, so the tailnet
   # keeps working, but if a magicdns name ever starts resolving to 198.18.x.y
