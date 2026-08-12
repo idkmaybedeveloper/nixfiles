@@ -197,6 +197,14 @@ in
   # xwayland) lives in services/desktop.nix; this is just the wm config
   wayland.windowManager.sway = {
     enable = true;
+    systemd.extraCommands = [
+      "systemctl --user reset-failed"
+      "systemctl --user restart graphical-session.target"
+      "systemctl --user start sway-session.target"
+      "swaymsg -mt subscribe '[]' || true"
+      "systemctl --user stop sway-session.target"
+    ];
+
     # the wrapped sway comes from programs.sway on the system side, so home
     # manager only writes the config - two swaypackages in PATH would fight
     package = null;
