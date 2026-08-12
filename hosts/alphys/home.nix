@@ -1,9 +1,6 @@
 { pkgs, ... }:
 let
-  wallpaper = pkgs.fetchurl {
-    url = "https://cloud.wejust.rest/f90b50d267a041ad8ff286c9d7bcdefc81644e38193deb8ce357d860a0f3902d/meowmeow.jpg";
-    hash = "sha256-+QtQ0megQa2P8obJ17ze/IFkTjgZPeuM41fYYKDzkC0=";
-  };
+  wallpaper = (import ../../lib/wallpapers { inherit pkgs; }).meowmeow;
 
   # GIT_ASKPASS helper: prompts via gum (TUI) instead of the default
   # terminal echo prompt when git asks for an https username/password.
@@ -169,7 +166,7 @@ in
     ];
   };
 
-  # niri compositor config: https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
+  # niri compositor config: https://github.com/niri-wm/niri/wiki/Configuration:-Introduction
   xdg.configFile."niri/config.kdl".text = ''
     input {
         keyboard {
@@ -190,15 +187,12 @@ in
         }
     }
 
-    /*
-     * NOTE(lain): the SL3 panel is 2256x1504 @ 13.5", so 1.0 is tiny and 2.0 is huge.
-     * uncomment and tweak if the default (niri picks 1.0) is unreadable; niri does
-     * fractional scaling properly, so 1.5 is fine here.
-     *
-     * output "eDP-1" {
-     *     scale 1.5
-     * }
-     */
+    // NOTE(lain): the SL3 panel is 2256x1504 @ 13.5", so 1.0 is tiny and 2.0 is huge.
+    // drop da `/-` to turn the section on; niri does fractional scaling properly,
+    // so 1.5 is fine here
+    /-output "eDP-1" {
+        scale 1.5
+    }
 
     layout {
         gaps 8

@@ -3,7 +3,7 @@
 {
   imports = [
     ./networking.nix
-    partials.boot-efi
+    partials.boot-limine
     ./bootloader.nix
     ./users.nix
   ];
