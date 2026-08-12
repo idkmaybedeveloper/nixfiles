@@ -14,7 +14,6 @@ in
         marketplace.ms-dotnettools.vscode-dotnet-runtime
         marketplace.icsharpcode.ilspy-vscode
         open-vsx.redhat.java # redhah exploit gcc...
-        open-vsx.wakatime.vscode-wakatime
         open-vsx.hashicorp.terraform
         marketplace.dedazamarks.tl
         open-vsx.barbosshack.crates-io
@@ -35,7 +34,6 @@ in
         open-vsx.ocamllabs.ocaml-platform
         open-vsx.erlang-ls.erlang-ls
         open-vsx.astro-build.astro-vscode
-        marketplace.leonardssh.vscord
       ];
       userSettings = {
         "update.mode" = "none";
