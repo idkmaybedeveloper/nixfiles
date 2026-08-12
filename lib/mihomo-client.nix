@@ -118,7 +118,10 @@ let
       ipv6 = false;
       listen = "127.0.0.1:1053";
       enhanced-mode = "fake-ip";
-      fake-ip-range = "198.18.0.1/16";
+      #the usual 198.18.0.1/16 default collides with real hops on the way to our
+      #own boxes (a traceroute from puppy walks through live 198.18.70.x), and a
+      #fake range that overlaps a real network eats addresses that exist
+      fake-ip-range = "241.0.0.1/8";
 
       #a fake ip for these would break them: magicdns names must resolve to the
       #real 100.64/10 address, and lan/mdns names never leave the link anyway
