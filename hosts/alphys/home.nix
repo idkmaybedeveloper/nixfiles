@@ -198,6 +198,7 @@ in
   wayland.windowManager.sway = {
     enable = true;
     systemd.extraCommands = [
+      "systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE"
       "systemctl --user reset-failed"
       "systemctl --user restart graphical-session.target"
       "systemctl --user start sway-session.target"
