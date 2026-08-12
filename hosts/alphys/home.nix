@@ -114,8 +114,9 @@ in
 
   programs.waybar = {
     enable = true;
-    # niri --session brings up graphical-session.target with the wayland env
-    # already imported, so the hm unit is enough (no autostart from the compositor)
+    # runs as a user unit pulled in by graphical-session.target; the session env
+    # it needs is imported by /etc/sway/config.d/nixos.conf (see the include in
+    # wayland.windowManager.sway below)
     systemd.enable = true;
     settings = {
       mainBar = {
@@ -197,14 +198,6 @@ in
   # xwayland) lives in services/desktop.nix; this is just the wm config
   wayland.windowManager.sway = {
     enable = true;
-    systemd.extraCommands = [
-      "systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE"
-      "systemctl --user reset-failed"
-      "systemctl --user restart graphical-session.target"
-      "systemctl --user start sway-session.target"
-      "swaymsg -mt subscribe '[]' || true"
-      "systemctl --user stop sway-session.target"
-    ];
 
     # the wrapped sway comes from programs.sway on the system side, so home
     # manager only writes the config - two swaypackages in PATH would fight
@@ -297,5 +290,16 @@ in
         reload = true;
       };
     };
+
+    # programs.sway writes /etc/sway/config.d/nixos.conf with the canonical
+    # session bootstrap (dbus-update-activation-environment --systemd, then
+    # `systemctl --user import-environment` + start of sway-session.target).
+    # the stock /etc/sway/config includes that directory, but sway ignores the
+    # system config entirely once ~/.config/sway/config exists - so pull it in
+    # explicitly, otherwise nothing ever imports WAYLAND_DISPLAY into the user
+    # manager and every ConditionEnvironment=WAYLAND_DISPLAY unit is skipped.
+    extraConfig = ''
+      include /etc/sway/config.d/*
+    '';
   };
 }
