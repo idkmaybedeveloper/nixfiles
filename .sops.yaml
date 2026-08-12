@@ -11,6 +11,7 @@ creation_rules:
       - age:
           - *mac
           - *puppy
+          - *alphys
   - path_regex: secrets/playground2\.yaml$
     encrypted_regex: ^.*$
     key_groups:

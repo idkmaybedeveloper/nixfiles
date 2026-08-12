@@ -5,5 +5,6 @@
     ./desktop.nix
     ./audio.nix
     ./tailscale.nix
+    ./mihomo.nix
   ];
 }
