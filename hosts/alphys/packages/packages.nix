@@ -56,10 +56,11 @@
     bazelisk
     obs-studio
 
-    # driftwm deps
+    # niri session deps
     swaylock
     swayidle
-    wlopm
+    swaybg
+    xwayland-satellite
     grim
     slurp
     wl-clipboard
