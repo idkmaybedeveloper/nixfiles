@@ -38,6 +38,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # declarative plasma config (alphys)
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     # nix-darwin
     darwin-2605 = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
@@ -162,6 +169,7 @@
       nixpkgs-2405,
       home-manager,
       home-manager-2605,
+      plasma-manager,
       darwin-2605,
       darwin-2511,
       attic,
@@ -433,7 +441,10 @@
               home-manager.users.lain =
                 { config, pkgs, ... }:
                 {
-                  imports = [ ./hosts/alphys/home.nix ];
+                  imports = [
+                    plasma-manager.homeModules.plasma-manager
+                    ./hosts/alphys/home.nix
+                  ];
                   _module.args.vscode-extensions = nix-vscode-extensions.extensions.x86_64-linux;
                 };
             }

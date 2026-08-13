@@ -8,10 +8,43 @@
 
 {
   imports = [ ./skid.nix ];
-  nixpkgs.overlays = [ inputs.helium-linux.overlays.default ];
+  nixpkgs.overlays = [
+    inputs.helium-linux.overlays.default
+
+    /*
+      catppuccin mocha/blue for the whole plasma stack, pinned in one place so
+      the system profile (below), sddm (services/desktop.nix) and the plasma
+      config (home.nix, via useGlobalPkgs) all point at the same builds.
+      upstream: https://github.com/catppuccin/kde
+    */
+    (final: prev: {
+      catppuccinAlphys = {
+        kde = prev.catppuccin-kde.override {
+          flavour = [ "mocha" ];
+          accents = [ "blue" ];
+          winDecStyles = [ "modern" ];
+        };
+        gtk = prev.catppuccin-gtk.override {
+          variant = "mocha";
+          accents = [ "blue" ];
+        };
+        papirusFolders = prev.catppuccin-papirus-folders.override {
+          flavor = "mocha";
+          accent = "blue";
+        };
+        cursors = prev.catppuccin-cursors.mochaBlue;
+        sddm = prev.catppuccin-sddm.override {
+          flavor = "mocha";
+          accent = "blue";
+          font = "Noto Sans";
+          background = "${(import ../../../lib/wallpapers { pkgs = final; }).meowmeow}";
+        };
+      };
+    })
+  ];
   programs.fish.enable = true;
 
-  # nerd font for waybar/fuzzel icon glyphs + a proper sans/mono fallback
+  # nerd font for terminal/icon glyphs + a proper sans/mono fallback
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
     nerd-fonts.symbols-only
@@ -56,17 +89,14 @@
     bazelisk
     obs-studio
 
-    # sway session deps
-    swaylock
-    swayidle
-    swaybg
-    grim
-    slurp
     jq
     wl-clipboard
-    brightnessctl
-    playerctl
-    polkit_gnome
+
+    # plasma theming (screenshots/lock/idle/polkit all come with plasma6)
+    catppuccinAlphys.kde
+    catppuccinAlphys.gtk
+    catppuccinAlphys.papirusFolders
+    catppuccinAlphys.cursors
     ###########
 
     python3
