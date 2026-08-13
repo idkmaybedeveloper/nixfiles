@@ -100,6 +100,28 @@ in
       options = [ "grp:win_space_toggle" ];
     };
 
+    # SL3's elan-behind-surface-hid touchpad; ids from /proc/bus/input/devices
+    input.touchpads = [
+      {
+        enable = true;
+        name = "Microsoft Surface 045E:09AF Touchpad";
+        vendorId = "045E";
+        productId = "09AF";
+
+        tapToClick = true;
+        naturalScroll = true;
+        pointerSpeed = 0.3;
+        accelerationProfile = "default";
+        disableWhileTyping = true;
+        tapAndDrag = true;
+        tapDragLock = true;
+        scrollMethod = "twoFingers";
+        scrollSpeed = 0.3;
+        rightClickMethod = "twoFingers";
+        twoFingerTap = "rightClick";
+      }
+    ];
+
     kscreenlocker = {
       autoLock = true;
       timeout = 5;
