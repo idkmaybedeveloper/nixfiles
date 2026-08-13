@@ -101,21 +101,29 @@ in
 
     kscreenlocker = {
       autoLock = true;
-      timeout = 10;
+      timeout = 5;
       lockOnResume = true;
+      passwordRequired = true;
+      passwordRequiredDelay = 0;
     };
 
     powerdevil = {
       AC = {
         powerButtonAction = "sleep";
         whenLaptopLidClosed = "sleep";
-        turnOffDisplay.idleTimeout = 300;
+        turnOffDisplay = {
+          idleTimeout = 330;
+          idleTimeoutWhenLocked = "immediately";
+        };
         autoSuspend.action = "nothing";
       };
       battery = {
         powerButtonAction = "sleep";
         whenLaptopLidClosed = "sleep";
-        turnOffDisplay.idleTimeout = 300;
+        turnOffDisplay = {
+          idleTimeout = 330;
+          idleTimeoutWhenLocked = "immediately";
+        };
         dimDisplay = {
           enable = true;
           idleTimeout = 180;
@@ -128,7 +136,10 @@ in
       lowBattery = {
         powerButtonAction = "sleep";
         whenLaptopLidClosed = "sleep";
-        turnOffDisplay.idleTimeout = 120;
+        turnOffDisplay = {
+          idleTimeout = 120;
+          idleTimeoutWhenLocked = "immediately";
+        };
         autoSuspend = {
           action = "sleep";
           idleTimeout = 300;
