@@ -438,6 +438,8 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              # plasma likes to write into files home-manager also owns
+              home-manager.backupFileExtension = "backup";
               home-manager.users.lain =
                 { config, pkgs, ... }:
                 {

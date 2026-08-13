@@ -37,6 +37,7 @@ in
       name = "Papirus-Dark";
       package = theme.papirusFolders;
     };
+    gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
     gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
     gtk4.extraConfig.gtk-application-prefer-dark-theme = true;
     #home-manager 26.05 defaults gtk4.theme to null; catppuccin-gtk ships
