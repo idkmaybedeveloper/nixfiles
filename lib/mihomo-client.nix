@@ -24,6 +24,11 @@ let
     geo-auto-update = !offlineGeodata;
     geo-update-interval = 168;
 
+    #TODO: drop this once the zone does split-horizon instead of two A records
+    hosts = {
+      "shit.cuddles.rs" = "82.40.37.53";
+    };
+
     proxies = [
       {
         name = "puppy-reality";
@@ -75,7 +80,6 @@ let
       "IP-CIDR,169.254.0.0/16,DIRECT,no-resolve"
       "IP-CIDR,100.64.0.0/10,DIRECT,no-resolve"
       "DOMAIN-SUFFIX,ts.net,DIRECT"
-      "DOMAIN,shit.cuddles.rs,DIRECT"
       "DOMAIN-SUFFIX,xn--p1ai,DIRECT" # рф
       "DOMAIN-SUFFIX,ru,DIRECT"
       "DOMAIN-SUFFIX,su,DIRECT"
@@ -107,10 +111,9 @@ let
       device = "mihomo0";
       auto-route = true;
       auto-detect-interface = true;
-      #keep the tailnet out of the tun entirely: shit.cuddles.rs resolves to a
-      #100.64/10 address, so without this the packets enter mihomo0, come back
-      #out as a DIRECT dial bound to the default (physical) interface and never
-      #reach tailscale0 at all
+      #keep the tailnet out of the tun entirely - a 100.64/10 packet that enters
+      #mihomo0 comes back out as a DIRECT dial bound to the default (physical)
+      #interface and never reaches tailscale0
       route-exclude-address = [ "100.64.0.0/10" ];
       dns-hijack = [
         "any:53"
@@ -132,9 +135,6 @@ let
       #real 100.64/10 address, and lan/mdns names never leave the link anyway
       fake-ip-filter = [
         "+.ts.net"
-        #handing nix a 241.x fake-ip for the cache would drag the download back
-        #into the tun even though the rule says DIRECT
-        "shit.cuddles.rs"
         "+.lan"
         "+.local"
         "+.home.arpa"
@@ -155,13 +155,6 @@ let
       #foreign resolvers hand out cdn ips that ru sites then refuse to serve
       nameserver-policy = {
         "+.ts.net" = "100.100.100.100";
-        #plain udp on purpose: the DoH resolvers above are themselves reached
-        #through the ruleset, so resolving the cache would ride the tunnel it is
-        #supposed to stay out of
-        "shit.cuddles.rs" = [
-          "1.1.1.1"
-          "9.9.9.9"
-        ];
         "geosite:category-gov-ru,yandex,vk" = [
           "77.88.8.8"
           "77.88.8.1"
