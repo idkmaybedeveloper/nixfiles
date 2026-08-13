@@ -109,6 +109,16 @@ in
   # for `mihomo generate uuid` / `mihomo generate reality-keypair`
   environment.systemPackages = [ pkgs.mihomo ];
 
+  #nix-topology has no extractor for mihomo, so the listeners are declared here
+  topology.self.services.mihomo = {
+    name = "mihomo";
+    info = "vless-reality + hysteria2";
+    details.listen.text = ''
+      tcp 0.0.0.0:${toString vlessPort} (vless reality)
+      udp 0.0.0.0:${toString hysteriaPort} (hysteria2)
+    '';
+  };
+
   networking.firewall.allowedTCPPorts = [ vlessPort ];
   networking.firewall.allowedUDPPorts = [ hysteriaPort ];
 }

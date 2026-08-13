@@ -69,6 +69,11 @@ in
     '';
   };
 
+  topology.self.services.sub-render = {
+    name = "sub-render";
+    info = "subscription files under a secret path, served by angie";
+  };
+
   systemd.services.sub-render = {
     description = "publish the subscriptions under the secret path";
     wantedBy = [ "multi-user.target" ];

@@ -69,6 +69,12 @@ in
     '';
   };
 
+  #plain systemd units, so nothing upstream would pick them up for the topology
+  topology.self.services.wildcard-cert = {
+    name = "wildcard-cert";
+    info = "lego, cloudflare dns-01, daily timer";
+  };
+
   systemd.timers.wildcard-cert = {
     wantedBy = [ "timers.target" ];
     timerConfig = {

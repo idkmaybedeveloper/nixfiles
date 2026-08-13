@@ -57,6 +57,11 @@
 
     # shared
     attic.url = "github:zhaofengli/attic";
+    # network/infra diagrams generated from the nixos configs themselves
+    nix-topology = {
+      url = "github:oddlama/nix-topology";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:NixOS/nixos-hardware"; # alphys (surface laptop 3)
     disko = {
       url = "github:nix-community/disko";
@@ -173,6 +178,7 @@
       darwin-2605,
       darwin-2511,
       attic,
+      nix-topology,
       nixos-hardware,
       disko,
       nixos-anywhere,
@@ -240,6 +246,22 @@
           // nixpkgs.lib.optionalAttrs (pkgs != null) { inherit pkgs; }
         );
 
+      # nix-topology renders on whatever host we happen to be sitting at, so the
+      # package set for it is separate from the per-host zoo above
+      mkTopology =
+        system:
+        import nix-topology {
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = false;
+            overlays = [ nix-topology.overlays.default ];
+          };
+          modules = [
+            ./topology.nix
+            { nixosConfigurations = self.nixosConfigurations; }
+          ];
+        };
+
       mkDarwinSystem =
         {
           darwin,
@@ -254,6 +276,12 @@
     in
     {
       formatter.${darwinSystem} = darwinPkgs.nixfmt-tree;
+
+      # nix build .#topology.aarch64-darwin.config.output
+      topology = {
+        aarch64-darwin = mkTopology "aarch64-darwin";
+        x86_64-linux = mkTopology "x86_64-linux";
+      };
 
       # nix run .#nixos-anywhere -- --flake .#puppy root@puppyip
       apps.${darwinSystem}.nixos-anywhere = {
