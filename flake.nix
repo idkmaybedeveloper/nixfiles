@@ -114,6 +114,10 @@
     };
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     helium.url = "git+https://code.wejust.rest/lain/helium-mac.git";
+    nixcursor = {
+      url = "git+https://code.cuddles.rs/lain/nixcursor";
+      inputs.nixpkgs.follows = "nixpkgs-2605";
+    };
 
     # macmini
     mailserver = {
@@ -179,6 +183,7 @@
       nixvim,
       nix-vscode-extensions,
       helium,
+      nixcursor,
       mailserver,
       #borrowd,
       cursed-ping,
@@ -273,6 +278,7 @@
           modules = [
             ./hosts/darwin/darwin-configuration.nix
             vivienne.darwinModules.default
+            nixcursor.darwinModules.default
             sops-nix.darwinModules.sops
 
             home-manager-2605.darwinModules.home-manager

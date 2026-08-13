@@ -1040,6 +1040,26 @@
         "type": "github"
       }
     },
+    "nixcursor": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-2605"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786623148,
+        "narHash": "sha256-c39bsvB1nAoG8mabPKJlOkPtTO3vf61Jaf8BaxKoQxY=",
+        "ref": "refs/heads/trunk",
+        "rev": "0d41c1f795cf0b04317c227fd83dad771fbf4daa",
+        "revCount": 1,
+        "type": "git",
+        "url": "https://code.cuddles.rs/lain/nixcursor"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://code.cuddles.rs/lain/nixcursor"
+      }
+    },
     "nixos-anywhere": {
       "inputs": {
         "disko": [
@@ -1490,6 +1510,7 @@
         "nix-minecraft": "nix-minecraft",
         "nix-on-droid": "nix-on-droid",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nixcursor": "nixcursor",
         "nixos-anywhere": "nixos-anywhere",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_7",
