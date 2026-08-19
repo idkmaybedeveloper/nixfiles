@@ -13,4 +13,8 @@
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
   };
+
+  # angie is flagged insecure in nixpkgs: not a CVE, just "insufficiently
+  # maintained". we still serve http with it
+  nixpkgs.config.permittedInsecurePackages = [ "angie-1.12.1" ];
 }

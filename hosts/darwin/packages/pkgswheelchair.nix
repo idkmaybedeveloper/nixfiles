@@ -15,6 +15,7 @@
       "quickjs-2025-09-13-2"
       "lima-full-1.2.2" # colima REF: "Lima version 1.2.2 is EOL. See https://lima-vm.io/docs/releases/."
       "lima-additional-guestagents-1.2.2" # colima REF: "Lima version 1.2.2 is EOL. See https://lima-vm.io/docs/releases/."
+      "angie-1.12.1" # not a CVE, just "insufficiently maintained in nixpkgs"
     ];
   };
 

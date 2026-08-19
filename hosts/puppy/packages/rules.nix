@@ -17,4 +17,8 @@
 
   # oh no unfree packages :(
   nixpkgs.config.allowUnfree = false;
+
+  # angie is flagged insecure in nixpkgs: not a CVE, just "insufficiently
+  # maintained". we still serve http with it
+  nixpkgs.config.permittedInsecurePackages = [ "angie-1.12.1" ];
 }

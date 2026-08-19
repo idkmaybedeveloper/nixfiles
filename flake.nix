@@ -337,6 +337,7 @@
               nixpkgs.overlays = [
                 late-sh.overlays.default
                 helium.overlays.default
+                (import ./lib/fuckyoudotnet.nix)
                 (final: prev: {
                   python3Packages = prev.python3Packages.overrideScope (
                     pyFinal: pyPrev: {

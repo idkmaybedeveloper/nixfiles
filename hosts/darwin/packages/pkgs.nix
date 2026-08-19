@@ -101,7 +101,7 @@ in
     btop
     ripgrep
     duf
-    dotnet-sdk_10
+    dotnet-sdk_10 # NOTE: points at the -bin variant, see lib/fuckyoudotnet.nix
     # dotnet-sdk_9
     # dotnet-sdk_7
     openssh
@@ -231,7 +231,11 @@ in
     garble
     ldid
     libirecovery
-    gvfs
+    # gvfs
+    # ^ wheelchair
+    #   > ../common/gvfsutils.h:41:7: error: call to undeclared function 'explicit_bzero'
+    #   darwin libc has no explicit_bzero (memset_s instead), and the gnome vfs
+    #   daemon is dead weight here anyway. `gio` lives in glib if it is ever needed
     #mpv
     #gomobile
     sapling
@@ -265,7 +269,10 @@ in
     materialgram
     rclone
     packer
-    ostui
+    # ostui
+    # ^ wheelchair
+    #   drags in mpv, which on darwin drags in swift-5.10.1, which means
+    #   building llvm+swift from source
     flashrom
     ocamlPackages.ocaml-lsp
     ilspycmd
