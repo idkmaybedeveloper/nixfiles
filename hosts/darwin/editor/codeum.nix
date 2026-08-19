@@ -39,6 +39,8 @@ in
         open-vsx.kpumuk.thrift-weaver-vscode
         marketplace.ggml-org.llama-vscode
         marketplace.jetbrains.kotlin-server
+        marketplace.antfu.icons-carbon
+        open-vsx.catppuccin.catppuccin-vsc-icons
       ];
       userSettings = {
         "update.mode" = "none";
@@ -77,6 +79,8 @@ in
             "editor.lineHighlightBorder" = "#00000000";
           };
         };
+        "workbench.productIconTheme" = "icons-carbon";
+        "workbench.iconTheme" = "catppuccin-mocha";
       };
     };
   };
