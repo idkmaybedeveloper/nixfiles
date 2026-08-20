@@ -49,6 +49,7 @@ in
         "extensions.autoUpdate" = false;
         "extensions.autoCheckUpdates" = false;
         "window.autoDetectColorScheme" = true;
+        "python.languageServer" = "None";
         "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
         "workbench.preferredLightColorTheme" = "Catppuccin Latte";
         "nix.serverPath" = "nil";
