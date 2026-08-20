@@ -279,6 +279,7 @@ in
     atproto-goat
     bsky-cli
     tokei
+    yq-go
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";

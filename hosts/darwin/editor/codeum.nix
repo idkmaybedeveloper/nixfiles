@@ -41,6 +41,8 @@ in
         marketplace.jetbrains.kotlin-server
         marketplace.antfu.icons-carbon
         open-vsx.catppuccin.catppuccin-vsc-icons
+        open-vsx.meta.pyrefly
+        open-vsx.ms-python.python
       ];
       userSettings = {
         "update.mode" = "none";
