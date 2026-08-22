@@ -43,13 +43,15 @@ in
         open-vsx.catppuccin.catppuccin-vsc-icons
         open-vsx.meta.pyrefly
         open-vsx.ms-python.python
+        marketplace.ms-kubernetes-tools.vscode-kubernetes-tools
+        marketplace.redhat.vscode-yaml
       ];
       userSettings = {
         "update.mode" = "none";
         "extensions.autoUpdate" = false;
         "extensions.autoCheckUpdates" = false;
         "window.autoDetectColorScheme" = true;
-        "python.languageServer" = "None";
+        "python.languageServer" = "Default";
         "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
         "workbench.preferredLightColorTheme" = "Catppuccin Latte";
         "nix.serverPath" = "nil";
@@ -84,6 +86,9 @@ in
         };
         "workbench.productIconTheme" = "icons-carbon";
         "workbench.iconTheme" = "catppuccin-mocha";
+        "vs-kubernetes" = {
+          "vs-kubernetes.crd-code-completion"= "enabled";
+        };
       };
     };
   };
