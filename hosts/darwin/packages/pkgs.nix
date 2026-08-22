@@ -279,6 +279,7 @@ in
     bsky-cli
     tokei
     yq-go
+    copybara
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";

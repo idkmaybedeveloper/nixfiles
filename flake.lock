@@ -865,11 +865,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785242276,
-        "narHash": "sha256-sJI/6nAkckPii1HUCNj4XwPV6E7CZ9t75WX/XQvSyG8=",
+        "lastModified": 1786567397,
+        "narHash": "sha256-H713vbgy+n1asVNn/0kBwbFgroNgC1dnx8pEMKcFdgk=",
         "ref": "refs/heads/main",
-        "rev": "d4165c1dc93aa7bb3019e5a90960c121e228cad5",
-        "revCount": 1069,
+        "rev": "e668474df221aeef1ebd374d0364aa07f1d4f827",
+        "revCount": 1074,
         "type": "git",
         "url": "https://code.wejust.rest/mirror/nixos-mailserver"
       },
