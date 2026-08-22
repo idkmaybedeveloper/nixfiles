@@ -11,12 +11,12 @@ in
     iosevka-bin
   ];
 
-  security.pki.certificateFiles = [
-    (pkgs.fetchurl {
-      url = "http://setupca.at.cuddles.rs/"; # 192.168.1.65
-      hash = "sha256-AvLe+5dSqBqS8cxfyasje/UIVI01ky3xxzXV4sTOb/s=";
-    })
-  ];
+  #security.pki.certificateFiles = [
+  #  (pkgs.fetchurl {
+  #    url = "http://setupca.at.cuddles.rs/"; # 192.168.1.65
+  #    hash = "sha256-AvLe+5dSqBqS8cxfyasje/UIVI01ky3xxzXV4sTOb/s=";
+  #  })
+  #];
 
   system.nvram.variables = {
     "boot-args" = "-arm64e_preview_abi -v";
