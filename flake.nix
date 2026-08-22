@@ -222,11 +222,17 @@
 
       # NOTE: each host pins its own nixpkgs (the zoo above), so the helpers take
       # the desired nixpkgs/darwin input explicitly instead of capturing one
+      # NOTE: when a host gets its pkgs from here, nixpkgs.config in its modules
+      # is rejected by the assertion in nixos/modules/misc/nixpkgs.nix, so the
+      # per-host config bits have to be threaded in as the third argument
       mkPkgs =
-        nixpkgs: system:
+        nixpkgs: system: config:
         import nixpkgs {
           inherit system;
-          config.allowUnfree = false;
+          config = {
+            allowUnfree = false;
+          }
+          // config;
         };
 
       mkNixosSystem =
@@ -391,7 +397,7 @@
         # macmini
         macmini = mkNixosSystem {
           nixpkgs = nixpkgs;
-          pkgs = mkPkgs nixpkgs "x86_64-linux";
+          pkgs = mkPkgs nixpkgs "x86_64-linux" { };
           #specialArgs = { inherit borrowd; };
           modules = [
             ./hosts/macmini/configuration.nix
@@ -402,7 +408,11 @@
         # nixvm
         nixvm = mkNixosSystem {
           nixpkgs = nixpkgs-2511;
-          pkgs = mkPkgs nixpkgs-2511 "x86_64-linux";
+          # angie is flagged insecure in nixpkgs: not a CVE, just "insufficiently
+          # maintained". we still serve http with it
+          pkgs = mkPkgs nixpkgs-2511 "x86_64-linux" {
+            permittedInsecurePackages = [ "angie-1.12.1" ];
+          };
           specialArgs = { inherit attic; };
           modules = [
             ./hosts/nixvm/configuration.nix
@@ -412,7 +422,7 @@
         # playground1
         playground1 = mkNixosSystem {
           nixpkgs = nixpkgs-2511;
-          pkgs = mkPkgs nixpkgs-2511 "x86_64-linux";
+          pkgs = mkPkgs nixpkgs-2511 "x86_64-linux" { };
           specialArgs = { inherit cursed-ping attic; };
           modules = [
             ./hosts/playground1/configuration.nix

@@ -14,7 +14,6 @@
     ];
   };
 
-  # angie is flagged insecure in nixpkgs: not a CVE, just "insufficiently
-  # maintained". we still serve http with it
-  nixpkgs.config.permittedInsecurePackages = [ "angie-1.12.1" ];
+  # NOTE: permittedInsecurePackages for angie lives in flake.nix, this host gets
+  # its pkgs from mkPkgs so nixpkgs.config here would trip the nixpkgs assertion
 }
