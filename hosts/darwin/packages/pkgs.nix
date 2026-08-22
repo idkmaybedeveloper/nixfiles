@@ -198,7 +198,6 @@ in
     tree
     catgirl
     spleen
-    iosevka-bin
     kubectl
     protoc-gen-go
     protoc-gen-go-grpc

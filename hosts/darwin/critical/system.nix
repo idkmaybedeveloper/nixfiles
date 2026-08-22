@@ -7,6 +7,10 @@ let
   };
 in
 {
+  fonts.packages = with pkgs; [
+    iosevka-bin
+  ];
+
   security.pki.certificateFiles = [
     (pkgs.fetchurl {
       url = "http://setupca.at.cuddles.rs/"; # 192.168.1.65
@@ -14,19 +18,14 @@ in
     })
   ];
 
-  system.defaults = {
-    NSGlobalDomain = {
-      AppleShowAllExtensions = true;
-      ApplePressAndHoldEnabled = false;
-    };
-  };
-
   system.nvram.variables = {
     "boot-args" = "-arm64e_preview_abi -v";
   };
 
   system.activationScripts.postActivation.text = ''
     echo "nya :33"
+    # force-reload defaults without full logout
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u || true
   '';
 
   system.activationScripts.extraActivation.text = ''
