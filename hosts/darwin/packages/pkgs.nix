@@ -77,7 +77,6 @@ in
   home.packages = with pkgs; [
     git
     git-lfs
-    late-sh
     pinentry-curses # gpg signing deps
     micro
     gnupg
@@ -280,6 +279,8 @@ in
     tokei
     yq-go
     copybara
+    nh
+    sccache
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";

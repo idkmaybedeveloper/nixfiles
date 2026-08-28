@@ -57,15 +57,15 @@
           sha256 = "sha256-NQa12L0zlEz2EJjMDhWUhw5cz/zcFokjuCK5ZofTn+Q=";
         };
       }
-      {
-        name = "nix.fish";
-        src = pkgs.fetchFromGitHub {
-          owner = "kpbaks";
-          repo = "nix.fish";
-          rev = "8a39e3e9be2e3a020a901eb9c8a2a9ffda8e3b50";
-          sha256 = "sha256-4V91YQuC4UtcILE50gl4xBgr2rFAkzWx0APooMs4mYM=";
-        };
-      }
+      #{
+      #  name = "nix.fish";
+      #  src = pkgs.fetchFromGitHub {
+      #   owner = "kpbaks";
+      #   repo = "nix.fish";
+      #   rev = "8a39e3e9be2e3a020a901eb9c8a2a9ffda8e3b50";
+      #   sha256 = "sha256-4V91YQuC4UtcILE50gl4xBgr2rFAkzWx0APooMs4mYM=";
+      # };
+      #}
       #{
       #  name = "pure-fish";
       #  src = pkgs.fetchFromGitHub {
