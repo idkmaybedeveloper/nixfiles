@@ -15,6 +15,7 @@ let
       nftables
       gnugrep
       gnused
+      jq
       coreutils
     ];
     text = ''
@@ -59,9 +60,8 @@ let
 
       nft -f "$tmp/ruleset.nft"
 
-      v4=$(nft -j list set inet rkn_blacklist v4 | grep -o '"prefix"' | wc -l)
-      v6=$(nft -j list set inet rkn_blacklist v6 | grep -o '"prefix"' | wc -l)
-      echo "blacklist applied: $v4 v4 nets, $v6 v6 nets"
+      count() { nft -j list set inet rkn_blacklist "$1" | jq '[.nftables[].set.elem[]?] | length'; }
+      echo "blacklist applied: $(count v4) v4 intervals, $(count v6) v6 intervals"
     '';
   };
 in
