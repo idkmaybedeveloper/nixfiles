@@ -39,3 +39,19 @@ fix it if the vds hands you `/dev/vda` or an nvme.
 ```sh
 nixos-rebuild switch --flake .#puppy --target-host root@<ip>
 ```
+## srvos
+
+puppy pulls `srvos.nixosModules.server` (see `flake.nix`), which is where all the
+"no docs, no fonts, no command-not-found, gitMinimal" trimming comes from. the
+bits that clash with the shared partials are forced back in place:
+
+- `critical/networking.nix` - `networkmanager.enable = false` (srvos runs
+  systemd-networkd, dhcp on ens1 comes from `networking.useDHCP`), `allowPing`
+  stays off
+- `critical/users.nix` - `wheelNeedsPassword` stays on
+
+srvos also sets `users.mutableUsers = false`, so root has no password at all
+anymore: the vnc console rescue path is `lain` + the sops password + sudo.
+
+the first switch swaps networkmanager for networkd, ie the box redoes dhcp on
+ens1 mid-rebuild. do that one with the vnc console open.

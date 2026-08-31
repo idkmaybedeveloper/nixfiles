@@ -24,7 +24,9 @@
     # NOTE: per-host nixpkgs, my favourite nixpkgs versions zoo
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable"; # macmini, x230 (eva01)
     nixpkgs-2605.url = "github:NixOS/nixpkgs/nixpkgs-26.05-darwin"; # darwin (m68k)
-    nixpkgs-2511.url = "github:NixOS/nixpkgs/nixos-25.11"; # nixvm, playground1, playground2, puppy
+    # same release as the -darwin branch above, just the nixos-tested cut
+    nixpkgs-2605-linux.url = "github:NixOS/nixpkgs/nixos-26.05"; # puppy
+    nixpkgs-2511.url = "github:NixOS/nixpkgs/nixos-25.11"; # nixvm, playground1, playground2
     nixpkgs-2411.url = "github:NixOS/nixpkgs/nixos-24.11"; # nixvm (macvm)
     nixpkgs-2405.url = "github:NixOS/nixpkgs/nixos-24.05"; # nix-on-droid
 
@@ -66,6 +68,15 @@
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    # server-flavoured nixos defaults (puppy): no docs, no fonts, no x11
+    # leftovers, networkd instead of the shell script pile
+    # ref: https://github.com/nix-community/srvos
+    srvos = {
+      # NOTE: srvos main tracks nixos-unstable and dropped its < 26.05 compat,
+      # so puppy has to stay on 26.05+ for this to evaluate
+      url = "github:nix-community/srvos";
+      inputs.nixpkgs.follows = "nixpkgs-2605-linux";
     };
     # remote installer (puppy), pinned so every box gets the same one
     nixos-anywhere = {
@@ -164,6 +175,7 @@
       self,
       nixpkgs,
       nixpkgs-2605,
+      nixpkgs-2605-linux,
       nixpkgs-2511,
       nixpkgs-2411,
       nixpkgs-2405,
@@ -177,6 +189,7 @@
       nixos-hardware,
       disko,
       nixos-anywhere,
+      srvos,
       helium-linux,
       nix-homebrew,
       homebrew-core,
@@ -435,9 +448,10 @@
         };
 
         puppy = mkNixosSystem {
-          nixpkgs = nixpkgs-2511;
+          nixpkgs = nixpkgs-2605-linux;
           modules = [
             ./hosts/puppy/configuration.nix
+            srvos.nixosModules.server
             disko.nixosModules.disko
             sops-nix.nixosModules.sops
           ];

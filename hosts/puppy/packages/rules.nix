@@ -2,7 +2,9 @@
 
 {
   # universal nix gc/settings/autoUpgrade come from lib/partials/nix-common.nix
-  system.autoUpgrade.channel = "https://nixos.org/channels/nixos-25.11";
+  # NOTE: srvos sets nix.channel.enable = false, so this channel is only here for
+  # bookkeeping; autoUpgrade has nothing to pull until it points at the flake
+  system.autoUpgrade.channel = "https://nixos.org/channels/nixos-26.05";
 
   nix.settings = {
     substituters = [

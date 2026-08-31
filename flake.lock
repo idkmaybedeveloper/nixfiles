@@ -1226,6 +1226,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-2605-linux": {
+      "locked": {
+        "lastModified": 1787962033,
+        "narHash": "sha256-u6z9VTZA4Kf3RkHQo9sQI7NI4Ei/uiU9vrMqOiwWP1Y=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "c5c4a43b0e8056328ec4529f735cabdb8f1942bb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-26.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-darwin": {
       "locked": {
         "lastModified": 1786920013,
@@ -1572,9 +1588,11 @@
         "nixpkgs-2411": "nixpkgs-2411",
         "nixpkgs-2511": "nixpkgs-2511",
         "nixpkgs-2605": "nixpkgs-2605",
+        "nixpkgs-2605-linux": "nixpkgs-2605-linux",
         "nixvim": "nixvim",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
+        "srvos": "srvos",
         "tangled": "tangled",
         "vivienne": "vivienne"
       }
@@ -1680,6 +1698,26 @@
       "original": {
         "type": "tarball",
         "url": "https://sqlite.org/2024/sqlite-amalgamation-3450100.zip"
+      }
+    },
+    "srvos": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-2605-linux"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788143273,
+        "narHash": "sha256-YXleehtVHiLcH2+V0lSrl5Nmo2c+J11tI3+l4l9q3AQ=",
+        "owner": "nix-community",
+        "repo": "srvos",
+        "rev": "e4d3f8fe5f1d4246d32177315edf8d9104f1c32b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "srvos",
+        "type": "github"
       }
     },
     "systems": {
