@@ -46,8 +46,7 @@ puppy pulls `srvos.nixosModules.server` (see `flake.nix`), which is where all th
 bits that clash with the shared partials are forced back in place:
 
 - `critical/networking.nix` - `networkmanager.enable = false` (srvos runs
-  systemd-networkd, dhcp on ens1 comes from `networking.useDHCP`), `allowPing`
-  stays off
+  systemd-networkd, ens1 is described by `10-ens1.network`), `allowPing` stays off
 - `critical/users.nix` - `wheelNeedsPassword` stays on
 
 srvos also sets `users.mutableUsers = false`, so root has no password at all
