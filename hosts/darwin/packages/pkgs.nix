@@ -11,10 +11,12 @@ let
     platformVersions = [
       "34"
       "35"
+      "36"
     ];
     buildToolsVersions = [
       "34.0.0"
       "35.0.0"
+      "36.0.0"
     ];
     includeNDK = false;
   };
