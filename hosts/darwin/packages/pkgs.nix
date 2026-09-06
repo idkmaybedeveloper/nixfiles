@@ -283,6 +283,7 @@ in
     copybara
     nh
     sccache
+    maturin
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";

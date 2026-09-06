@@ -40,13 +40,13 @@ in
         open-vsx.astro-build.astro-vscode
         marketplace.leonardssh.vscord
         open-vsx.kpumuk.thrift-weaver-vscode
-        marketplace.ggml-org.llama-vscode
         marketplace.antfu.icons-carbon
         open-vsx.catppuccin.catppuccin-vsc-icons
         open-vsx.meta.pyrefly
         open-vsx.ms-python.python
         marketplace.ms-kubernetes-tools.vscode-kubernetes-tools
         marketplace.redhat.vscode-yaml
+        marketplace.meta.sapling-scm
       ];
       userSettings = {
         "update.mode" = "none";
@@ -92,8 +92,9 @@ in
         "workbench.productIconTheme" = "icons-carbon";
         "workbench.iconTheme" = "catppuccin-mocha";
         "vs-kubernetes" = {
-          "vs-kubernetes.crd-code-completion"= "enabled";
+          "vs-kubernetes.crd-code-completion" = "enabled";
         };
+        "explorer.confirmDelete" = false;
       };
     };
   };
