@@ -168,6 +168,13 @@
       url = "git+https://code.cuddles.rs/lain/Vivienne";
       inputs.nixpkgs.follows = "nixpkgs-2605";
     };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
   };
 
   outputs =
@@ -214,6 +221,7 @@
       sops-nix,
       nix-on-droid,
       vivienne,
+      zen-browser,
       ...
     }@inputs:
     let
@@ -341,6 +349,7 @@
                   imports = [
                     ./hosts/darwin/home.nix
                     nixvim.homeModules.nixvim
+                    zen-browser.homeModules.twilight
                   ];
                   _module.args.attic = attic;
                   _module.args.vscode-extensions = nix-vscode-extensions.extensions.${darwinSystem};

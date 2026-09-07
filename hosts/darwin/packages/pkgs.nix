@@ -265,7 +265,6 @@ in
     forgejo-cli
     #nixd
     nil
-    helium
     materialgram
     rclone
     packer
@@ -284,6 +283,7 @@ in
     nh
     sccache
     maturin
+    #helium # bye helium hello gay sex (zen)
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";
