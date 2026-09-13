@@ -20,6 +20,11 @@
     ./critical
     ./packages/pkgswheelchair.nix
     ./services
+    (import ./apps { inherit pkgs; } (
+      apps: with apps; [
+        bitwarden
+      ]
+    ))
     nix-homebrew.darwinModules.nix-homebrew
   ];
 
