@@ -1,4 +1,10 @@
-{ pkgs, lib, config, vscode-extensions, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  vscode-extensions,
+  ...
+}:
 
 let
   marketplace = vscode-extensions.vscode-marketplace;
@@ -73,7 +79,7 @@ in
         "scm.inputFontFamily" = "Iosevka, monospace";
         "intellij.region" = "europe";
         "intellij.dataSharing" = "none";
-        
+
         # NOTE: vscode-bazel searches for a `bazel` in PATH,
         # but we have only bazelisk SOOOOO just point it there
         "bazel.executable" = "${pkgs.bazelisk}/bin/bazelisk";
@@ -98,13 +104,15 @@ in
       };
     };
   };
-  
-  home.activation.kotlinServerExtension = lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ] ''
-    run rm -rf ${lib.escapeShellArg kotlinServerDir}
-    run mkdir -p ${lib.escapeShellArg kotlinServerDir}
-    run cp -R ${kotlinServer}/share/vscode/extensions/jetbrains.kotlin-server/. ${lib.escapeShellArg kotlinServerDir}
-    run chmod -R u+w ${lib.escapeShellArg kotlinServerDir}
-  '';
+
+  home.activation.kotlinServerExtension =
+    lib.hm.dag.entryAfter [ "writeBoundary" "linkGeneration" ]
+      ''
+        run rm -rf ${lib.escapeShellArg kotlinServerDir}
+        run mkdir -p ${lib.escapeShellArg kotlinServerDir}
+        run cp -R ${kotlinServer}/share/vscode/extensions/jetbrains.kotlin-server/. ${lib.escapeShellArg kotlinServerDir}
+        run chmod -R u+w ${lib.escapeShellArg kotlinServerDir}
+      '';
 
   home.packages = with pkgs; [
     gopls

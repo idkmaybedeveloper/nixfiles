@@ -11,7 +11,6 @@
     ./editor
   ];
 
-
   #TODO: move to ./browser?
   programs.zen-browser = {
     enable = true;
@@ -53,7 +52,7 @@
                 template = "https://www.kagi.com/search?q={searchTerms}";
               }
             ];
-            definedAliases = ["@k"];
+            definedAliases = [ "@k" ];
           };
         };
       };

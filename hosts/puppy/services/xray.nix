@@ -22,7 +22,11 @@ let
   # build-time check below, and the cert paths move with it, so both configs
   # keep the exact same shape
   mkSettings =
-    { ph, cert, key }:
+    {
+      ph,
+      cert,
+      key,
+    }:
     {
       log.loglevel = "warning";
 
@@ -144,19 +148,17 @@ let
     })
   );
 
-  configCheck =
-    pkgs.runCommand "xray-config-check" { nativeBuildInputs = [ pkgs.openssl ]; }
-      ''
-        openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
-          -subj "/CN=localhost" -keyout key.pem -out cert.pem
+  configCheck = pkgs.runCommand "xray-config-check" { nativeBuildInputs = [ pkgs.openssl ]; } ''
+    openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
+      -subj "/CN=localhost" -keyout key.pem -out cert.pem
 
-        substitute ${checkConfig} config.json \
-          --subst-var-by cert "$PWD/cert.pem" \
-          --subst-var-by key "$PWD/key.pem"
+    substitute ${checkConfig} config.json \
+      --subst-var-by cert "$PWD/cert.pem" \
+      --subst-var-by key "$PWD/key.pem"
 
-        ${pkgs.xray}/bin/xray -test -config config.json
-        touch $out
-      '';
+    ${pkgs.xray}/bin/xray -test -config config.json
+    touch $out
+  '';
 in
 {
   sops.secrets.xray_vless_uuid = { };
