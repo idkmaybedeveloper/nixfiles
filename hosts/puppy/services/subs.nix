@@ -7,7 +7,7 @@
 }:
 
 let
-  endpoints = import (abs "lib/mihomo-endpoints.nix");
+  endpoints = import (abs "lib/proxy-endpoints.nix");
   ph = config.sops.placeholder;
 
   clientSettings = import (abs "lib/mihomo-client.nix") { inherit ph endpoints; };
@@ -23,20 +23,20 @@ let
   inherit (endpoints) vlessPort hysteriaPort;
 
   vlessUri =
-    "vless://${ph.mihomo_vless_uuid}@${ph.reality_server_name}:${toString vlessPort}"
+    "vless://${ph.xray_vless_uuid}@${ph.reality_server_name}:${toString vlessPort}"
     + "?encryption=none&security=reality&type=tcp&flow=xtls-rprx-vision"
     + "&sni=${ph.reality_server_name}&fp=chrome"
-    + "&pbk=${ph.mihomo_reality_public_key}&sid=${ph.mihomo_reality_short_id}"
+    + "&pbk=${ph.xray_reality_public_key}&sid=${ph.xray_reality_short_id}"
     + "#puppy-reality";
 
   hy2Uri =
-    "hy2://${ph.mihomo_hysteria_password}@${ph.reality_server_name}:${toString hysteriaPort}"
+    "hy2://${ph.xray_hysteria_password}@${ph.reality_server_name}:${toString hysteriaPort}"
     + "?sni=${ph.reality_server_name}&alpn=h3"
     + "#puppy-hy2";
 in
 {
   sops.secrets.sub_id.restartUnits = [ "sub-render.service" ];
-  sops.secrets.mihomo_reality_public_key = { };
+  sops.secrets.xray_reality_public_key = { };
 
   sops.templates."sub-uris" = {
     content = "${vlessUri}\n${hy2Uri}\n";

@@ -64,7 +64,7 @@ in
         install -m 0640 -g nginx "$src.key" ${key}
 
         systemctl reload-or-restart nginx.service || true
-        systemctl try-restart mihomo.service || true
+        systemctl try-restart xray.service || true
       fi
     '';
   };
@@ -89,11 +89,11 @@ in
     wantedBy = [ "multi-user.target" ];
     before = [
       "nginx.service"
-      "mihomo.service"
+      "xray.service"
     ];
     requiredBy = [
       "nginx.service"
-      "mihomo.service"
+      "xray.service"
     ];
 
     serviceConfig = {

@@ -35,7 +35,7 @@ let
         type = "vless";
         server = ph.reality_server_name;
         port = endpoints.vlessPort;
-        uuid = ph.mihomo_vless_uuid;
+        uuid = ph.xray_vless_uuid;
         network = "tcp";
         flow = "xtls-rprx-vision";
         udp = true;
@@ -43,8 +43,8 @@ let
         servername = ph.reality_server_name;
         client-fingerprint = "chrome";
         reality-opts = {
-          public-key = ph.mihomo_reality_public_key;
-          short-id = ph.mihomo_reality_short_id;
+          public-key = ph.xray_reality_public_key;
+          short-id = ph.xray_reality_short_id;
         };
       }
       {
@@ -52,7 +52,7 @@ let
         type = "hysteria2";
         server = ph.reality_server_name;
         port = endpoints.hysteriaPort;
-        password = ph.mihomo_hysteria_password;
+        password = ph.xray_hysteria_password;
         sni = ph.reality_server_name;
         up = "50 mbps";
         down = "200 mbps";

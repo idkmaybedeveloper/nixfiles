@@ -6,7 +6,7 @@
 }:
 
 let
-  endpoints = import (abs "lib/mihomo-endpoints.nix");
+  endpoints = import (abs "lib/proxy-endpoints.nix");
 
   # same secrets the darwin daemon uses; puppy.yaml is encrypted for alphys too
   # now (see .sops.yaml), so the box unwraps them with its own key
@@ -38,10 +38,10 @@ in
   sops.secrets = builtins.listToAttrs (
     map puppySecret [
       "reality_server_name"
-      "mihomo_vless_uuid"
-      "mihomo_reality_public_key"
-      "mihomo_reality_short_id"
-      "mihomo_hysteria_password"
+      "xray_vless_uuid"
+      "xray_reality_public_key"
+      "xray_reality_short_id"
+      "xray_hysteria_password"
     ]
   );
 
