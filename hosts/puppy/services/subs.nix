@@ -30,13 +30,14 @@ let
     + "#puppy-reality";
 
   hy2Uri =
-    "hy2://${ph.xray_hysteria_password}@${ph.reality_server_name}:${toString hysteriaPort}"
+    "hy2://@HY2PW@@${ph.reality_server_name}:${toString hysteriaPort}"
     + "?sni=${ph.reality_server_name}&alpn=h3"
     + "#puppy-hy2";
 in
 {
   sops.secrets.sub_id.restartUnits = [ "sub-render.service" ];
   sops.secrets.xray_reality_public_key = { };
+  sops.secrets.xray_hysteria_password.restartUnits = [ "sub-render.service" ];
 
   sops.templates."sub-uris" = {
     content = "${vlessUri}\n${hy2Uri}\n";
@@ -81,6 +82,8 @@ in
     path = [
       pkgs.coreutils
       pkgs.findutils
+      pkgs.gawk
+      pkgs.jq
     ];
 
     serviceConfig = {
@@ -99,7 +102,15 @@ in
 
       #the base64 cant happen at eval time: every field in those uris is a sops
       #placeholder that only turns real once the template is rendered on the box
-      base64 -w0 ${config.sops.templates."sub-uris".path} > ${subsDir}/"$id"/xray
+      #mktemp -d gives us 0700, so the encoded password never sits world readable,
+      #and both tools take it by file rather than by argv
+      tmp=$(mktemp -d)
+      trap 'rm -rf "$tmp"' EXIT
+
+      jq -Rr @uri < ${config.sops.secrets.xray_hysteria_password.path} > "$tmp/pw"
+      awk -v pwfile="$tmp/pw" \
+        'BEGIN { getline pw < pwfile } { gsub(/@HY2PW@/, pw) } 1' \
+        ${config.sops.templates."sub-uris".path} | base64 -w0 > ${subsDir}/"$id"/xray
       chmod 0444 ${subsDir}/"$id"/xray
 
       install -m 0444 ${config.sops.templates."sub-mihomo.yaml".path} \
