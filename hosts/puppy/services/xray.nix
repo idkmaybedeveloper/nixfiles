@@ -3,6 +3,7 @@
   lib,
   pkgs,
   abs,
+  angieFallback,
   wildcardCert,
   ...
 }:
@@ -14,8 +15,10 @@ let
   # DynamicUser service that owns nothing on disk
   creds = "/run/credentials/xray.service";
 
-  # 80/443 belong to angie and stay a plain boring website...
+  # reality owns 443 and angie only listens on the loopback port behind it, so
+  # anything that isnt a real client walks out of the fallback as that website
   inherit (endpoints) vlessPort hysteriaPort;
+  angieTls = "${angieFallback.addr}:${toString angieFallback.port}";
 
   # ref: https://xtls.github.io/config/
   # ph is config.sops.placeholder on the box and a pile of stand-ins in the
@@ -50,7 +53,7 @@ let
             network = "raw";
             security = "reality";
             realitySettings = {
-              target = "127.0.0.1:443";
+              target = angieTls;
               serverNames = [ ph.reality_server_name ];
               privateKey = ph.xray_reality_private_key;
               shortIds = [ ph.xray_reality_short_id ];
@@ -115,7 +118,7 @@ let
 
       # the reality fallback to angie and the hysteria2 masquerade are dialed
       # inside their transports, not through routing, so unlike the mihomo
-      # ruleset this needs no carve-out for 127.0.0.1:443 / :80
+      # ruleset this needs no carve-out for the loopback ports they talk to
       routing.rules = [
         {
           type = "field";
@@ -205,7 +208,7 @@ in
     name = "xray";
     info = "vless-reality + hysteria2";
     details.listen.text = ''
-      tcp 0.0.0.0:${toString vlessPort} (vless reality)
+      tcp 0.0.0.0:${toString vlessPort} (vless reality, falls back to ${angieTls})
       udp 0.0.0.0:${toString hysteriaPort} (hysteria2)
     '';
   };
