@@ -53,6 +53,9 @@ in
         marketplace.ms-kubernetes-tools.vscode-kubernetes-tools
         marketplace.redhat.vscode-yaml
         marketplace.meta.sapling-scm
+        open-vsx.denoland.vscode-deno
+        marketplace.llvm-vs-code-extensions.vscode-clangd
+        marketplace.ms-vscode.cmake-tools
       ];
       userSettings = {
         "update.mode" = "none";
