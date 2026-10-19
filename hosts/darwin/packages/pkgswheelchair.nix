@@ -16,6 +16,8 @@
       "lima-full-1.2.2" # colima REF: "Lima version 1.2.2 is EOL. See https://lima-vm.io/docs/releases/."
       "lima-additional-guestagents-1.2.2" # colima REF: "Lima version 1.2.2 is EOL. See https://lima-vm.io/docs/releases/."
       "angie-1.12.1" # not a CVE, just "insufficiently maintained in nixpkgs"
+      "materialgram-7.0.5.1" # CVE-2026-107181, waiting to fix
+      "materialgram-unwrapped-7.0.5.1"# ^^^^
     ];
   };
 

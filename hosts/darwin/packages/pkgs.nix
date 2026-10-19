@@ -41,11 +41,27 @@ let
     cp ${
       pkgs.fetchurl {
         url = "https://storage.googleapis.com/git-repo-downloads/repo";
-        sha256 = "EhG1e1fkEiqcVGKVpZs30kBo8RZNDoe+8JbVMjxBPk8=";
+        sha256 = "1r93a6k6v35wfz6hdadnln3w7pjas3mxcrllz45fmdh5awrgdlkf";
       }
     } $out/bin/repo
     chmod +x $out/bin/repo
   '';
+
+  /*
+    //FIXME: drop once materialgram stops calling tr:: in the mac global menu.
+    Platform::CreateGlobalMenu() runs inside the Core::Sandbox ctor, before
+    Core::Application exists, and the fork swapped upstream's u"About Telegram"_q
+    literal for tr::lng_mac_menu_about_telegram, so Core::App() asserts and the
+    app segfaults on launch. still broken in v7.3.1.1.
+    ref: https://github.com/telegramdesktop/tdesktop/blob/v7.2.9/Telegram/SourceFiles/platform/mac/global_menu_mac.mm
+  */
+  materialgram = pkgs.materialgram.overrideAttrs (old: {
+    unwrapped = old.unwrapped.overrideAttrs (oldUnwrapped: {
+      patches = (oldUnwrapped.patches or [ ]) ++ [
+        ./patches/materialgram-mac-menu-before-app.patch
+      ];
+    });
+  });
 
   depot-tools = pkgs.stdenv.mkDerivation {
     pname = "depot-tools";

@@ -1,0 +1,14 @@
+--- a/Telegram/SourceFiles/platform/mac/global_menu_mac.mm	2026-10-19 23:05:30.234191664 +0300
++++ b/Telegram/SourceFiles/platform/mac/global_menu_mac.mm	2026-10-19 23:05:30.257386475 +0300
+@@ -355,10 +355,7 @@
+ 			});
+ 		};
+ 		const auto about = main->addAction(
+-			tr::lng_mac_menu_about_telegram(
+-				tr::now,
+-				lt_telegram,
+-				u"materialgram"_q),
++			u"About materialgram"_q,
+ 			std::move(callback));
+ 		about->setMenuRole(QAction::AboutQtRole);
+ 	}
