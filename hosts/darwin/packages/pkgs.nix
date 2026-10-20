@@ -47,15 +47,54 @@ let
     chmod +x $out/bin/repo
   '';
 
-  /*
-    //FIXME: drop once materialgram stops calling tr:: in the mac global menu.
-    Platform::CreateGlobalMenu() runs inside the Core::Sandbox ctor, before
-    Core::Application exists, and the fork swapped upstream's u"About Telegram"_q
-    literal for tr::lng_mac_menu_about_telegram, so Core::App() asserts and the
-    app segfaults on launch. still broken in v7.3.1.1.
-    ref: https://github.com/telegramdesktop/tdesktop/blob/v7.2.9/Telegram/SourceFiles/platform/mac/global_menu_mac.mm
-  */
-  materialgram = pkgs.materialgram.overrideAttrs (old: {
+  desktopAppPatches = pkgs.fetchFromGitHub {
+    owner = "desktop-app";
+    repo = "patches";
+    rev = "fe957833b84525e634a8d776a7f834ed536d9a21";
+    hash = "sha256-doO5PoIh+POUuVTJfg3gmTmPg16HUJ+aR6OMxn/frPY=";
+  };
+
+  withDesktopAppPatches =
+    dir: old:
+    let
+      patchDir = "${desktopAppPatches}/${dir}";
+      names = lib.sort lib.lessThan (
+        lib.attrNames (lib.filterAttrs (name: _: lib.hasSuffix ".patch" name) (builtins.readDir patchDir))
+      );
+    in
+    {
+      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.buildPackages.git ];
+      postPatch =
+        (old.postPatch or "")
+        + lib.concatMapStrings (name: ''
+          echo "applying desktop-app patch ${name}"
+          git apply -p1 ${patchDir}/${name}
+        '') names;
+    };
+
+  pkgsTdesktopQt = import pkgs.path {
+    inherit (pkgs.stdenv.hostPlatform) system;
+    inherit (pkgs) config;
+    overlays = [
+      (final: prev: {
+        qt6 = prev.qt6.overrideScope (
+          qfinal: qprev: {
+            qtbase = qprev.qtbase.overrideAttrs (old: withDesktopAppPatches "qtbase_${old.version}" old);
+            qtsvg = qprev.qtsvg.overrideAttrs (old: withDesktopAppPatches "qtsvg_${old.version}" old);
+            inherit (pkgs.qt6) qttranslations;
+          }
+        );
+      })
+    ];
+  };
+
+  #FIXME: drop once materialgram stops calling tr:: in the mac global menu.
+  #Platform::CreateGlobalMenu() runs inside the Core::Sandbox ctor, before
+  #Core::Application exists, and the fork swapped upstream's u"About Telegram"_q
+  #literal for tr::lng_mac_menu_about_telegram, so Core::App() asserts and the
+  #app segfaults on launch. still broken in v7.3.1.1.
+  #ref: https://github.com/telegramdesktop/tdesktop/blob/v7.2.9/Telegram/SourceFiles/platform/mac/global_menu_mac.mm
+  materialgram = pkgsTdesktopQt.materialgram.overrideAttrs (old: {
     unwrapped = old.unwrapped.overrideAttrs (oldUnwrapped: {
       patches = (oldUnwrapped.patches or [ ]) ++ [
         ./patches/materialgram-mac-menu-before-app.patch
