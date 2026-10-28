@@ -56,6 +56,7 @@ in
         open-vsx.denoland.vscode-deno
         marketplace.llvm-vs-code-extensions.vscode-clangd
         marketplace.ms-vscode.cmake-tools
+        marketplace.diplodoc.diplodoc-vsc-extension
       ];
       userSettings = {
         "update.mode" = "none";

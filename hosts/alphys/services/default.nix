@@ -6,5 +6,6 @@
     ./audio.nix
     ./tailscale.nix
     ./mihomo.nix
+    ./wireguard.nix
   ];
 }

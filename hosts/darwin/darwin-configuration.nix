@@ -23,6 +23,7 @@
     (import ./apps { inherit pkgs; } (
       apps: with apps; [
         bitwarden
+        authentik
       ]
     ))
     nix-homebrew.darwinModules.nix-homebrew

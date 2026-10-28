@@ -77,6 +77,36 @@ rec {
       fi
     '';
 
+  installAppFromPkg =
+    {
+      pkg,
+      filename,
+      version,
+      afterInstall ? "",
+    }:
+    let
+      app = "/Applications/" + builtins.baseNameOf filename;
+    in
+    ''
+      if [ "$(/usr/bin/defaults read ${lib.escapeShellArg "${app}/Contents/Info.plist"} CFBundleShortVersionString 2>/dev/null)" != ${lib.escapeShellArg version} ]; then
+        echo "Installing" ${lib.escapeShellArg filename} ${lib.escapeShellArg version}"..."
+        tmpdir=$(mktemp -d)
+        /usr/sbin/pkgutil --expand-full ${pkg} "$tmpdir/expanded"
+
+        if [ ! -d "$tmpdir/expanded/"${lib.escapeShellArg filename} ]; then
+          echo "Error: file not found:" ${lib.escapeShellArg filename}
+          rm -rf "$tmpdir"
+          exit 1
+        fi
+
+        rm -rf ${lib.escapeShellArg app}
+        /usr/bin/ditto "$tmpdir/expanded/"${lib.escapeShellArg filename} ${lib.escapeShellArg app}
+        rm -rf "$tmpdir"
+
+        ${afterInstall}
+      fi
+    '';
+
   downloadAndInstallZipApp =
     {
       url,

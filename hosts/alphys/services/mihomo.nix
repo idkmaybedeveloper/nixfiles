@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   abs,
   ...
 }:
@@ -58,6 +59,9 @@ in
   };
 
   systemd.services.mihomo.serviceConfig.ExecStartPre = [ "${installGeodata}" ];
+
+  #NOTE: wg-quick-mrrp is the default way out now, mihomo only on demand
+  systemd.services.mihomo.wantedBy = lib.mkForce [ ];
 
   # the tun interface carries already-decided traffic, and the default zone
   # would drop the replies coming back in on it
