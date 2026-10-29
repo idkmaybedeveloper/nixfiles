@@ -745,6 +745,26 @@
         "url": "https://github.com/IBM/plex/releases/download/@ibm%2Fplex-mono@1.1.0/ibm-plex-mono.zip"
       }
     },
+    "ida-pro-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785758329,
+        "narHash": "sha256-UtCdu4witdJNIVS4kW9Be/JeboYSw+fayfCu7I1KbXg=",
+        "owner": "msanft",
+        "repo": "ida-pro-overlay",
+        "rev": "b741850598858f913c72bc809e744b89f9a7c255",
+        "type": "github"
+      },
+      "original": {
+        "owner": "msanft",
+        "repo": "ida-pro-overlay",
+        "type": "github"
+      }
+    },
     "indigo": {
       "flake": false,
       "locked": {
@@ -1574,6 +1594,7 @@
         "homebrew-php": "homebrew-php",
         "homebrew-sikarugir": "homebrew-sikarugir",
         "homebrew-wine": "homebrew-wine",
+        "ida-pro-overlay": "ida-pro-overlay",
         "mailserver": "mailserver",
         "nix-homebrew": "nix-homebrew",
         "nix-minecraft": "nix-minecraft",

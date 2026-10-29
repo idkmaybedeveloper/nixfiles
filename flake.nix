@@ -57,6 +57,11 @@
       inputs.nixpkgs.follows = "nixpkgs-2511";
     };
 
+    ida-pro-overlay = {
+      url = "github:msanft/ida-pro-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # shared
     attic.url = "github:zhaofengli/attic";
     # network/infra diagrams generated from the nixos configs themselves
