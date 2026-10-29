@@ -73,7 +73,7 @@ lib.mkMerge [
         '';
       };
     environment.variables = lib.optionalAttrs (source.hash != null) {
-      HCLI_CURRENT_IDA_INSTALL_DIR = "${macIda}/opt";
+      HCLI_CURRENT_IDA_INSTALL_DIR = "${macIda}/Applications/IDA Professional 9.5.app";
     };
   })
   (lib.optionalAttrs (!isDarwin) {
