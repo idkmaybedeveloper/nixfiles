@@ -19,6 +19,7 @@
   imports = [
     ./critical
     ./packages/pkgswheelchair.nix
+    (import ../../lib/ida { platform = "darwin"; })
     ./services
     (import ./apps { inherit pkgs; } (
       apps: with apps; [

@@ -20,7 +20,7 @@
       "labs:1+w3w/rjRYzPhQals2BIspD0DZSyNmCP+dD76gGQPGU="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
-    netrc-file = "/Users/lain/.config/nix/netrc";
+    netrc-file = pkgs.lib.mkDefault "/Users/lain/.config/nix/netrc";
     trusted-users = [
       "root"
       "lain"

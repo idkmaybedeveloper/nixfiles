@@ -33,6 +33,12 @@ FORMAT_CHECK_BYTES = bytes.fromhex(
     "80bc24fb0200007f75530fb68424f3020000440fb6ac24f702000083f0fb"
     "4183f5ef0fb6c80fb6842403030000450fb6ed83f0c2"
 )
+ARM_FORMAT_CHECK_BYTES = bytes.fromhex(
+    "3fff017101050054fb4f483948188052770308caff82027168040054"
+    "e81f4839e91d8052180109ca088300911f0117eba1030054e80f4839"
+    "691f8052030109ca"
+)
+ARM_LENGTH_CHECK_BYTES = bytes.fromhex("b48358f8e80b8052350308caf42f00a9")
 
 
 def modulus_layout():
@@ -81,6 +87,29 @@ def format_check_bytes(digest: bytes) -> bytes:
     return bytes(result)
 
 
+def arm_format_check_bytes(digest: bytes) -> bytes:
+    result = bytearray(ARM_FORMAT_CHECK_BYTES)
+    replacements = (
+        (0, 0xFFF << 10, digest[11] << 10),
+        (12, 0xFFFF << 5, (digest[19] ^ 127) << 5),
+        (32, 0xFFFF << 5, (digest[7] ^ 95) << 5),
+        (56, 0xFFFF << 5, (digest[3] ^ 128) << 5),
+    )
+    for offset, mask, immediate in replacements:
+        instruction = int.from_bytes(result[offset:offset + 4], "little")
+        result[offset:offset + 4] = ((instruction & ~mask) | immediate).to_bytes(4, "little")
+    return bytes(result)
+
+
+def arm_length_check_bytes(digest: bytes) -> bytes:
+    result = bytearray(ARM_LENGTH_CHECK_BYTES)
+    instruction = int.from_bytes(result[4:8], "little")
+    result[4:8] = (
+        (instruction & ~(0xFFFF << 5)) | ((digest[11] ^ 32) << 5)
+    ).to_bytes(4, "little")
+    return bytes(result)
+
+
 class RSA:
     def __init__(self):
         self.hexrays_modulus_bytes = bytes.fromhex(
@@ -98,6 +127,8 @@ class RSA:
         digest = key_digest(modulus)
         self.signature_pad = bytes(a ^ b for a, b in zip(original_digest, digest))
         self.format_patch = format_check_bytes(digest)
+        self.arm_format_patch = arm_format_check_bytes(digest)
+        self.arm_length_patch = arm_length_check_bytes(digest)
 
         # the explanation below describes the old prime-modulus patch.
 
@@ -326,17 +357,30 @@ def generate_patched_dll(filename, apply=False):
 
         original_keys = data.count(rsa.hexrays_modulus_bytes)
         patched_keys = data.count(rsa.patched_modulus_bytes)
-        original_format = data.count(FORMAT_CHECK_BYTES)
-        patched_format = data.count(rsa.format_patch)
-        if original_keys == 0 and patched_keys > 0 and patched_format == 1:
+        is_arm = data.count(ARM_FORMAT_CHECK_BYTES) or data.count(rsa.arm_format_patch)
+        if is_arm:
+            format_original = ARM_FORMAT_CHECK_BYTES
+            format_patched = rsa.arm_format_patch
+        else:
+            format_original = FORMAT_CHECK_BYTES
+            format_patched = rsa.format_patch
+        original_format = data.count(format_original)
+        patched_format = data.count(format_patched)
+        original_length = data.count(ARM_LENGTH_CHECK_BYTES) if is_arm else 0
+        patched_length = data.count(rsa.arm_length_patch) if is_arm else 0
+        if (original_keys == 0 and patched_keys > 0 and patched_format == 1
+                and (not is_arm or patched_length == 1)):
             print(f"{filename} looks to be already patched :)")
             return True
-        if original_keys == 0 or patched_keys != 0 or original_format != 1:
+        if (original_keys == 0 or patched_keys != 0 or original_format != 1
+                or (is_arm and (original_length != 1 or patched_length != 0))):
             print(f"{filename}: unsupported key or verifier layout; use a clean ida9.5 library.")
             return False
 
         data = data.replace(rsa.hexrays_modulus_bytes, rsa.patched_modulus_bytes)
-        data = data.replace(FORMAT_CHECK_BYTES, rsa.format_patch)
+        data = data.replace(format_original, format_patched)
+        if is_arm:
+            data = data.replace(ARM_LENGTH_CHECK_BYTES, rsa.arm_length_patch)
 
         patched_filename = f"{filename}.patched"
         with open(patched_filename, "wb") as f:
