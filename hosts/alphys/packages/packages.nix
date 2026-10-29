@@ -44,16 +44,16 @@
   ];
   programs.fish.enable = true;
 
-  # nerd font for terminal/icon glyphs + a proper sans/mono fallback
+  # iosevka nerd font for terminal/icon glyphs + a proper sans/mono fallback
   fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
+    nerd-fonts.iosevka
     nerd-fonts.symbols-only
     iosevka-bin
     noto-fonts
     noto-fonts-color-emoji
   ];
   fonts.fontconfig.defaultFonts = {
-    monospace = [ "JetBrainsMono Nerd Font" ];
+    monospace = [ "Iosevka Nerd Font" ];
     sansSerif = [ "Noto Sans" ];
     emoji = [ "Noto Color Emoji" ];
   };
@@ -101,5 +101,7 @@
 
     python3
     uv
+
+    spotify
   ];
 }

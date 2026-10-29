@@ -52,13 +52,12 @@ in
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  programs.alacritty = {
+  programs.ghostty = {
     enable = true;
     settings = {
-      font = {
-        normal.family = "JetBrainsMono Nerd Font";
-        size = 11;
-      };
+      theme = "Catppuccin Mocha";
+      font-family = "Iosevka Nerd Font";
+      font-size = 11;
     };
   };
 
@@ -110,7 +109,7 @@ in
 
         tapToClick = true;
         naturalScroll = true;
-        pointerSpeed = 0.3;
+        pointerSpeed = 0.6;
         accelerationProfile = "default";
         disableWhileTyping = true;
         tapAndDrag = true;
@@ -178,9 +177,9 @@ in
     };
 
     hotkeys.commands."launch-terminal" = {
-      name = "Launch Alacritty";
+      name = "Launch Ghostty";
       key = "Meta+Return";
-      command = "${pkgs.alacritty}/bin/alacritty";
+      command = "${pkgs.ghostty}/bin/ghostty";
     };
   };
 }
