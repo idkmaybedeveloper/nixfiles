@@ -365,6 +365,9 @@
                 helium.overlays.default
                 (import ./lib/fuckyoudotnet.nix)
                 (final: prev: {
+                  vscodium = nixpkgs.legacyPackages.${darwinSystem}.vscodium;
+                })
+                (final: prev: {
                   python3Packages = prev.python3Packages.overrideScope (
                     pyFinal: pyPrev: {
                       click_8_1 = pyPrev.click.overridePythonAttrs (oldAttrs: {
