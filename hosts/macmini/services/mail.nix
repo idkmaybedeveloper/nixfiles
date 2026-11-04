@@ -16,6 +16,10 @@
         hashedPasswordFile = "/etc/mail/passwd/sentry-iwakura";
         aliases = [ "@iwakura.page" ];
       };
+      "woke@iwakura.page" = {
+        hashedPasswordFile = "/etc/mail/passwd/woke-iwakura";
+        aliases = [ "@iwakura.page" ];
+      };
     };
 
     x509.useACMEHost = "mail.iwakura.page";
