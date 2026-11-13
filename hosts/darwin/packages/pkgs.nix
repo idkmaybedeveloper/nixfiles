@@ -339,6 +339,7 @@ in
     sccache
     maturin
     #helium # bye helium hello gay sex (zen)
+    picotool
   ];
 
   home.file.".android-sdk".source = "${android.androidsdk}/libexec/android-sdk";
